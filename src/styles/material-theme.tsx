@@ -88,6 +88,13 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 		}
 	},
 	components: {
+		MuiTypography: {
+			styleOverrides: {
+				root: {
+					color: theme.text.main
+				}
+			}
+		},
 		MuiButton: {
 			defaultProps: {
 				disableElevation: true

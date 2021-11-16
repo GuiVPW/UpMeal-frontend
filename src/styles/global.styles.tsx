@@ -26,7 +26,7 @@ export const GlobalStyle = css`
 		line-height: 1.43;
 		overflow-x: hidden;
 		letter-spacing: 0.01071em;
-		background-color: #f0f0f5;
+		background-color: #f9faff;
 	}
 
 	button {
@@ -45,31 +45,6 @@ export const GlobalStyle = css`
 
 	form {
 		width: 100%;
-	}
-
-	.custom-scrollbar {
-		outline: none;
-		scrollbar-color: rgba(1, 1, 1, 0.4);
-		scrollbar-width: 6x;
-		&::-webkit-scrollbar {
-			-webkit-appearance: none;
-			width: 6px;
-			height: 5px;
-		}
-
-		&::-webkit-scrollbar-corner {
-			background: rgba(0, 0, 0, 0);
-		}
-
-		&::-webkit-scrollbar-thumb {
-			max-height: 100px;
-			background-color: rgba(1, 1, 1, 0.4);
-			border-radius: 5px;
-		}
-
-		&::-webkit-scrollbar-track {
-			background-color: inherit;
-		}
 	}
 `
 

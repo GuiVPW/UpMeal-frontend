@@ -9,7 +9,8 @@ export const theme = {
 		disabled: '#EFEFEF',
 		main: '#f0f0f5',
 		secondary: '#d7d7d7',
-		light: '#fff'
+		light: '#fff',
+		foreground: '#F9FAFF'
 	},
 	text: {
 		main: '#13131A',
@@ -25,10 +26,12 @@ export const theme = {
 		green: '#00C48C'
 	},
 	border: {
-		thin: '#F0F0F5'
+		thin: '#F0F0F5',
+		darker: '#E2E2EA',
+		colored: '#F49F0E'
 	},
 	input: {
-		background: '#f0f0f5',
+		background: '#F9FAFF',
 		placeholder: '#a0a0b2',
 		text: '#6c6c80'
 	}

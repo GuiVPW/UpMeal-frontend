@@ -9,11 +9,14 @@ export const LayoutContainer = styled.main`
 `
 
 export const Content = styled(Container)`
+	display: flex;
+	justify-content: center;
 	padding: 60px 15px;
 	margin: 0;
+	height: 100vh;
+	margin-top: 64px;
 
 	@media only screen and (min-width: 768px) {
-		padding: 0px 20px;
-		min-height: 100%;
+		padding: 0 20px;
 	}
 `

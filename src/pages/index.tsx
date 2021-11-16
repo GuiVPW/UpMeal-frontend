@@ -5,10 +5,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { Button, Stack, TextField, Typography, useMediaQuery, Theme } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { Stack, TextField, Typography, useMediaQuery, Theme } from '@mui/material'
 
 import homeImage from '../assets/home-people.png'
-import { Container } from '../components/Container'
 import Link from '../components/Link'
 import { FormSection, StyledForm } from '../styles/Home'
 
@@ -20,6 +20,9 @@ interface LoginForm {
 const Home: NextPage = () => {
 	const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
 	const [login, setLogin] = useState<LoginForm>()
+	const [loading, setLoading] = useState(false)
+	const disabledCondition =
+		!login || !(login.email && login.password && login.password.length >= 6)
 
 	const handleChange = (key: keyof LoginForm) => (e: ChangeEvent<HTMLInputElement>) => {
 		setLogin({ ...login, [key]: e.target.value })
@@ -28,6 +31,10 @@ const Home: NextPage = () => {
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		console.log(login)
+		setLoading(true)
+		setTimeout(() => {
+			setLoading(false)
+		}, 3000)
 	}
 
 	return (
@@ -51,6 +58,7 @@ const Home: NextPage = () => {
 								placeholder="Seu E-mail"
 								value={login?.email}
 								onChange={handleChange('email')}
+								type="email"
 							/>
 							<TextField
 								type="password"
@@ -59,9 +67,15 @@ const Home: NextPage = () => {
 								onChange={handleChange('password')}
 							/>
 						</Stack>
-						<Button fullWidth type="submit" variant="contained">
+						<LoadingButton
+							disabled={disabledCondition}
+							loading={loading}
+							fullWidth
+							type="submit"
+							variant="contained"
+						>
 							Entrar
-						</Button>
+						</LoadingButton>
 					</Stack>
 
 					<Link href="signup">Não tenho cadastro</Link>

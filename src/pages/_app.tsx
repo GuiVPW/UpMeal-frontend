@@ -12,6 +12,7 @@ import createEmotionCache from '../lib/emotionCache.config'
 import { GlobalStyle } from '../styles/global.styles'
 import { materialTheme } from '../styles/material-theme'
 import { theme } from '../styles/theme'
+import 'leaflet/dist/leaflet.css'
 
 const clientSideEmotionCache = createEmotionCache()
 

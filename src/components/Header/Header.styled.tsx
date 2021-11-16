@@ -28,6 +28,7 @@ export const Container = styled(Toolbar)`
 export const Title = styled(Typography)`
 	font-weight: 600;
 	margin-top: 0;
+	cursor: pointer;
 `
 
 export const Content = styled.div`

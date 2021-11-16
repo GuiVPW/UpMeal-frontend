@@ -34,8 +34,9 @@ export const theme = {
 	}
 }
 
-export type Theme = typeof theme
+export type StyledTheme = typeof theme
 
 declare module '@emotion/react' {
-	export type DefaultTheme = Theme
+	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	export interface Theme extends StyledTheme {}
 }

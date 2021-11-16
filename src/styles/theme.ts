@@ -12,7 +12,7 @@ export const theme = {
 		light: '#fff'
 	},
 	text: {
-		main: '#1D2B4E',
+		main: '#13131A',
 		description: '#656A80',
 		link: '#4a90e2',
 		light: '#fff'

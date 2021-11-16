@@ -1,20 +1,18 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import Image from 'next/image'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Grid, Stack, TextField, Typography } from '@mui/material'
 import { useDropzone } from 'react-dropzone'
 
-import wasteImage from '../assets/signup-waste.png'
 import Link from '../components/Link'
 import { Shop } from '../services/entities'
 import {
 	ChosenImage,
 	Content,
 	Form,
-	ImageContainer,
 	ImageSelector,
 	PhotoContainer,
 	Surface
@@ -23,13 +21,24 @@ import { OmitProperty } from '../types/string'
 
 type SignupForm = Partial<OmitProperty<Shop, 'id' | 'reservations' | 'imageUrl'>> & {
 	image?: File
+	latitude: number
+	longitude: number
 }
 
 export const SignUp = () => {
-	const [signup, setLogin] = useState<SignupForm>()
+	const DynamicMap = dynamic(() => import('../components/Map'), { ssr: false })
+
+	const [initialPosition, setInitialPosition] = useState<
+		Pick<SignupForm, 'latitude' | 'longitude'>
+	>({
+		latitude: -22.3415495,
+		longitude: -49.0528041
+	})
+	const [signup, setSignup] = useState<SignupForm>(initialPosition)
 	const [loading, setLoading] = useState(false)
 	const [avatar, setAvatar] = useState<string>()
 	const [, setAvatarFile] = useState<File>()
+
 	const disabledCondition =
 		!signup ||
 		!(
@@ -41,9 +50,23 @@ export const SignUp = () => {
 			signup.city
 		)
 
+	useEffect(() => {
+		navigator.geolocation.getCurrentPosition(({ coords }) => {
+			const { latitude, longitude } = coords
+			setInitialPosition({
+				latitude,
+				longitude
+			})
+			setSignup({
+				latitude,
+				longitude
+			})
+		})
+	}, [])
+
 	const handleChange =
 		(key: keyof Omit<SignupForm, 'image'>) => (e: ChangeEvent<HTMLInputElement>) => {
-			setLogin({ ...signup, [key]: e.target.value })
+			setSignup({ ...signup, [key]: e.target.value })
 		}
 
 	const onDrop = useCallback(([file], [error]) => {
@@ -63,6 +86,7 @@ export const SignUp = () => {
 		})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
+
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
 		accept: ['image/jpeg', 'image/png'],
@@ -72,117 +96,137 @@ export const SignUp = () => {
 		preventDropOnDocument: false
 	})
 
+	const handleMarkerChange = ({ lat, lng }: { lat: number; lng: number }) => {
+		setSignup({
+			...signup,
+			latitude: lat,
+			longitude: lng
+		})
+	}
+
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log(signup)
+
 		setLoading(true)
+		const data = new FormData()
+
+		for (const field in signup) {
+			data.append(field, String(signup[field as keyof SignupForm]))
+		}
+
 		setTimeout(() => {
 			setLoading(false)
 		}, 3000)
+
+		console.log(signup)
+		console.log(data)
 	}
 
 	return (
 		<>
 			<Head>
 				<title>Cadastro</title>
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
 			<Surface elevation={6}>
 				<Content>
-					<ImageContainer>
-						<Image src={wasteImage} alt="waste" />
-					</ImageContainer>
 					<Stack spacing={2}>
 						<Typography variant="display2">Faça seu Cadastro</Typography>
-						<Typography variant="body1" color="textSecondary">
+						<Typography variant="h4" color="textSecondary">
 							Faça seu cadastro, entre na plataforma e ajude pessoas a evitarem o
 							desperdício.
 						</Typography>
+						<Link href="/">Já tenho um cadastro</Link>
 					</Stack>
-					<Link href="/">Já sou cadastrado</Link>
 				</Content>
 
 				<Form onSubmit={handleSubmit}>
-					<Stack spacing={2} sx={{ marginY: '24px' }}>
-						<Stack spacing={1}>
-							<PhotoContainer>
-								{avatar ? (
-									<>
-										<ImageSelector>
-											{/* eslint-disable-next-line react/jsx-no-undef */}
-											<ChosenImage
-												{...getRootProps()}
-												src={avatar}
-												alt="user-image-upload"
-											/>
-											<input {...getInputProps()} type="file" accept="image/*" />
-										</ImageSelector>
-									</>
-								) : (
-									<ImageSelector {...getRootProps()}>
+					<Stack spacing={3}>
+						<PhotoContainer>
+							{avatar ? (
+								<>
+									<ImageSelector>
+										{/* eslint-disable-next-line react/jsx-no-undef */}
+										<ChosenImage {...getRootProps()} src={avatar} alt="user-image-upload" />
 										<input {...getInputProps()} type="file" accept="image/*" />
-										<p>Arraste e solte uma imagem!</p>
 									</ImageSelector>
-								)}
-							</PhotoContainer>
+								</>
+							) : (
+								<ImageSelector {...getRootProps()}>
+									<input {...getInputProps()} type="file" accept="image/*" />
+									<p>Arraste e solte uma imagem!</p>
+								</ImageSelector>
+							)}
+						</PhotoContainer>
 
-							<TextField
-								placeholder="Seu E-mail"
-								value={signup?.email}
-								onChange={handleChange('email')}
-								fullWidth
-								type="email"
-							/>
-							<TextField
-								placeholder="Seu Nome"
-								value={signup?.name}
-								onChange={handleChange('name')}
-								fullWidth
-							/>
-							<TextField
-								type="password"
-								placeholder="Sua Senha"
-								value={signup?.password}
-								onChange={handleChange('password')}
-								fullWidth
-							/>
-							<TextField
-								type="tel"
-								placeholder="Seu Telefone"
-								value={signup?.phone}
-								onChange={handleChange('phone')}
-								fullWidth
-							/>
-							<Grid container justifyContent="space-between">
-								<Grid item xs={9}>
-									<TextField
-										placeholder="Sua Cidade"
-										value={signup?.city}
-										onChange={handleChange('city')}
-										fullWidth
-									/>
-								</Grid>
-								<Grid item xs={2}>
-									<TextField
-										placeholder="UF"
-										value={signup?.state}
-										onChange={handleChange('state')}
-										fullWidth
-									/>
-								</Grid>
-							</Grid>
-						</Stack>
-						<LoadingButton
-							disabled={disabledCondition}
-							loading={loading}
+						<TextField
+							placeholder="Seu E-mail"
+							value={signup?.email}
+							onChange={handleChange('email')}
 							fullWidth
-							type="submit"
-							variant="contained"
-						>
-							Cadastrar
-						</LoadingButton>
+							type="email"
+						/>
+						<TextField
+							placeholder="Seu Nome"
+							value={signup?.name}
+							onChange={handleChange('name')}
+							fullWidth
+						/>
+						<TextField
+							type="password"
+							placeholder="Sua Senha"
+							value={signup?.password}
+							onChange={handleChange('password')}
+							fullWidth
+						/>
+						<TextField
+							type="tel"
+							placeholder="Seu Telefone"
+							value={signup?.phone}
+							onChange={handleChange('phone')}
+							fullWidth
+						/>
+						<Grid container justifyContent="space-between">
+							<Grid item xs={9}>
+								<TextField
+									placeholder="Sua Cidade"
+									value={signup?.city}
+									onChange={handleChange('city')}
+									fullWidth
+								/>
+							</Grid>
+							<Grid item xs={2}>
+								<TextField
+									placeholder="UF"
+									value={signup?.state}
+									onChange={handleChange('state')}
+									fullWidth
+								/>
+							</Grid>
+						</Grid>
+						<Stack justifyContent="center" spacing={3}>
+							<Typography variant="h1">
+								Escolha no mapa a localização do seu estabelecimento.
+							</Typography>
+							<div>
+								<DynamicMap
+									initialPosition={initialPosition}
+									location={{ latitude: signup.latitude, longitude: signup.longitude }}
+									handleChangePosition={handleMarkerChange}
+								/>
+							</div>
+						</Stack>
 					</Stack>
+					<LoadingButton
+						disabled={disabledCondition}
+						loading={loading}
+						fullWidth
+						type="submit"
+						variant="contained"
+						sx={{ marginTop: '48px' }}
+					>
+						Cadastrar
+					</LoadingButton>
 				</Form>
 			</Surface>
 		</>

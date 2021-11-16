@@ -1,7 +1,7 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 import { pxToRem } from '../utils/px-to-rem'
-import { theme as colorTheme, Theme } from './theme'
+import { theme as colorTheme, StyledTheme } from './theme'
 
 declare module '@mui/material/styles' {
 	interface TypographyVariants {
@@ -26,7 +26,7 @@ declare module '@mui/material/Typography' {
 	}
 }
 
-const materialBaseTheme = (theme: Theme): ThemeOptions => ({
+const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 	palette: {
 		primary: {
 			main: theme.colors.primary
@@ -95,8 +95,11 @@ const materialBaseTheme = (theme: Theme): ThemeOptions => ({
 				root: {
 					textTransform: 'capitalize',
 					fontSize: pxToRem(14),
-					borderRadius: '24px',
 					fontWeight: 600
+					// color: theme.text.light
+				},
+				contained: {
+					padding: '12px 16px'
 				},
 				text: {
 					'& .MuiButton-label': {
@@ -120,6 +123,13 @@ const materialBaseTheme = (theme: Theme): ThemeOptions => ({
 					'&::placeholder': {
 						color: theme.input.placeholder
 					}
+				}
+			}
+		},
+		MuiLink: {
+			styleOverrides: {
+				root: {
+					color: theme.text.link
 				}
 			}
 		}

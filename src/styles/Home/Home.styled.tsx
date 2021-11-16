@@ -11,5 +11,8 @@ export const FormSection = styled.section`
 `
 
 export const StyledForm = styled.form`
-	margin-top: 100px;
+	margin-top: 0;
+	@media only screen and (min-width: 600px) {
+		margin-top: 100px;
+	}
 `

@@ -7,6 +7,8 @@ import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link'
 import { styled } from '@mui/material/styles'
 import clsx from 'clsx'
 
+import { theme } from '../../styles/theme'
+
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled('a')({})
 
@@ -77,7 +79,15 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
 			return <Anchor className={className} href={href} ref={ref} {...other} />
 		}
 
-		return <MuiLink className={className} href={href} ref={ref} {...other} />
+		return (
+			<MuiLink
+				className={className}
+				href={href}
+				ref={ref}
+				sx={{ color: theme.text.link }}
+				{...other}
+			/>
+		)
 	}
 
 	if (noLinkStyle) {

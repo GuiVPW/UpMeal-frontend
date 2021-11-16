@@ -26,7 +26,9 @@ export const theme = {
 		green: '#00C48C'
 	},
 	border: {
-		thin: '#F0F0F5'
+		thin: '#F0F0F5',
+		darker: '#E2E2EA',
+		colored: '#F49F0E'
 	},
 	input: {
 		background: '#F9FAFF',

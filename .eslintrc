@@ -1,10 +1,27 @@
 {
-	"extends": ["prettier", "next", "plugin:@typescript-eslint/recommended"],
-	"plugins": ["import", "prettier", "@typescript-eslint"],
+	"extends": [
+		"prettier",
+		"next",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"plugins": [
+		"import",
+		"prettier",
+		"@typescript-eslint"
+	],
 	"rules": {
-		"semi": ["error", "never"],
-		"comma-dangle": ["error", "never"],
-		"arrow-parens": ["error", "as-needed"],
+		"semi": [
+			"error",
+			"never"
+		],
+		"comma-dangle": [
+			"error",
+			"never"
+		],
+		"arrow-parens": [
+			"error",
+			"as-needed"
+		],
 		"consistent-return": "off",
 		"no-underscore-dangle": "off",
 		"func-names": "off",
@@ -17,7 +34,10 @@
 		"object-shorthand": "error",
 		"no-template-curly-in-string": "error",
 		"prefer-template": "error",
-		"linebreak-style": ["error", "unix"],
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
 		"no-plusplus": [
 			"error",
 			{
@@ -72,7 +92,10 @@
 			}
 		],
 		"prettier/prettier": "error",
-		"@typescript-eslint/semi": ["error", "never"],
+		"@typescript-eslint/semi": [
+			"error",
+			"never"
+		],
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/ban-ts-ignore": "off",
@@ -84,10 +107,24 @@
 		"import/order": [
 			"error",
 			{
-				"groups": ["builtin", "external", "internal"],
+				"groups": [
+					"builtin",
+					"external",
+					"internal"
+				],
 				"pathGroups": [
 					{
 						"pattern": "@emotion/react",
+						"group": "builtin",
+						"position": "before"
+					},
+					{
+						"pattern": "next/**",
+						"group": "builtin",
+						"position": "before"
+					},
+					{
+						"pattern": "next",
 						"group": "builtin",
 						"position": "before"
 					},
@@ -101,7 +138,9 @@
 						"group": "external"
 					}
 				],
-				"pathGroupsExcludedImportTypes": ["builtin"],
+				"pathGroupsExcludedImportTypes": [
+					"builtin"
+				],
 				"newlines-between": "always",
 				"alphabetize": {
 					"order": "asc"

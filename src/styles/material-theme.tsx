@@ -1,7 +1,8 @@
-import { alpha, createTheme, ThemeOptions } from '@mui/material/styles'
+import Fade from '@mui/material/Fade'
+import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 import { pxToRem } from '../utils/px-to-rem'
-import { theme as colorTheme, Theme } from './theme'
+import { theme as colorTheme, StyledTheme } from './theme'
 
 declare module '@mui/material/styles' {
 	interface TypographyVariants {
@@ -26,7 +27,7 @@ declare module '@mui/material/Typography' {
 	}
 }
 
-const materialBaseTheme = (theme: Theme): ThemeOptions => ({
+const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 	palette: {
 		primary: {
 			main: theme.colors.primary
@@ -93,63 +94,17 @@ const materialBaseTheme = (theme: Theme): ThemeOptions => ({
 			},
 			styleOverrides: {
 				root: {
-					textTransform: 'capitalize',
+					textTransform: 'uppercase',
 					fontSize: pxToRem(14),
-					borderRadius: '25px',
 					fontWeight: 600
 				},
 				contained: {
-					padding: '8px 30px'
-				},
-				containedSizeSmall: {
-					padding: '6px 10px'
-				},
-				outlined: {
-					padding: '6px 30px',
-					borderWidth: '2px !important'
+					padding: '12px 16px',
+					color: theme.text.light
 				},
 				text: {
-					fontWeight: 400,
-					padding: '2px 5px',
 					'& .MuiButton-label': {
 						justifyContent: 'space-between'
-					}
-				}
-			}
-		},
-		MuiAppBar: {
-			defaultProps: {
-				position: 'fixed',
-				elevation: 0
-			},
-			styleOverrides: {
-				root: {
-					borderBottom: '1px solid',
-					borderBottomColor: theme.border.thin
-				},
-				colorPrimary: {
-					backgroundColor: theme.background.main,
-					color: theme.text.main
-				}
-			}
-		},
-		MuiChip: {
-			styleOverrides: {
-				root: {
-					height: 24
-				},
-				sizeSmall: {
-					fontWeight: 500,
-					padding: '5px 10px'
-				},
-				label: {
-					fontSize: pxToRem(12)
-				},
-				deleteIconColorPrimary: {
-					color: theme.colors.primary,
-					fontSize: pxToRem(14),
-					'&:hover, &:active': {
-						color: alpha(theme.colors.primary, 0.7)
 					}
 				}
 			}
@@ -160,85 +115,29 @@ const materialBaseTheme = (theme: Theme): ThemeOptions => ({
 			},
 			styleOverrides: {
 				root: {
-					borderRadius: 6,
 					border: `1px solid ${theme.border.thin}`,
 					fontSize: pxToRem(14),
-					marginTop: '0 !important',
 					backgroundColor: theme.input.background,
 					color: theme.input.text
 				},
 				input: {
-					padding: '14px 16px 15px',
 					'&::placeholder': {
 						color: theme.input.placeholder
 					}
 				}
 			}
 		},
-		MuiListItem: {
+		MuiLink: {
 			styleOverrides: {
 				root: {
-					padding: '8px 20px'
+					color: theme.text.link
 				}
 			}
 		},
-		MuiMenuItem: {
-			styleOverrides: {
-				root: {
-					fontSize: pxToRem(14),
-					outline: 'none',
-					'&.Mui-selected': {
-						fontWeight: 500,
-						backgroundColor: alpha(theme.colors.primary, 0.1)
-					}
-				}
-			}
-		},
-		MuiDivider: {
-			styleOverrides: {
-				root: {
-					borderColor: theme.border.thin
-				},
-				wrapper: {
-					color: theme.border.thin,
-					fontSize: pxToRem(18),
-					paddingLeft: 20,
-					paddingRight: 20
-				},
-				wrapperVertical: {
-					paddingTop: 20,
-					paddingBottom: 20
-				}
-			}
-		},
-		MuiDrawer: {
-			styleOverrides: {
-				paper: {
-					borderRight: 0,
-					backgroundColor: theme.background.light
-				}
-			}
-		},
-		MuiTab: {
-			styleOverrides: {
-				root: {
-					paddingTop: 0,
-					paddingBottom: 0,
-					fontSize: pxToRem(14),
-					color: theme.text.main,
-					transition: 'all 0.3s linear',
-					borderTopRightRadius: '16px',
-					borderBottomRightRadius: '16px',
-					fontWeight: 500,
-					'&:hover': {
-						backgroundColor: alpha(theme.background.secondary, 0.4)
-					},
-					'&.Mui-selected': {
-						fontWeight: 700,
-						color: theme.colors.primary,
-						backgroundColor: alpha(theme.colors.primary, 0.1)
-					}
-				}
+		MuiSnackbar: {
+			defaultProps: {
+				anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+				TransitionComponent: Fade
 			}
 		}
 	}

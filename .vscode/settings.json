@@ -6,6 +6,7 @@
 		"build",
 		"screens",
 		"assets",
-		"prettier"
+		"prettier",
+		"storybook"
 	]
 }

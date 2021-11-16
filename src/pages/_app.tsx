@@ -7,6 +7,7 @@ import { ThemeProvider as StyledProvider } from '@emotion/react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/system'
 
+import Layout from '../components/Layout'
 import createEmotionCache from '../lib/emotionCache.config'
 import { GlobalStyle } from '../styles/global.styles'
 import { materialTheme } from '../styles/material-theme'
@@ -30,7 +31,9 @@ export const App = (props: MyAppProps) => {
 				<StyledProvider theme={theme}>
 					<CssBaseline />
 					<Global styles={GlobalStyle} />
-					<Component {...pageProps} />
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
 				</StyledProvider>
 			</ThemeProvider>
 		</CacheProvider>

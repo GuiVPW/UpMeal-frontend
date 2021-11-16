@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import styled from '@emotion/styled'
 import { Paper, Box } from '@mui/material'
 
@@ -27,9 +29,20 @@ export const Form = styled.form`
 `
 
 export const Content = styled.section`
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
 	width: 100%;
 	max-width: 380px;
 	padding: 24px;
+`
+
+export const ImageContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	width: 150px;
+	height: 150px;
+	margin-bottom: 24px;
 `
 
 export const PhotoContainer = styled(Box)`

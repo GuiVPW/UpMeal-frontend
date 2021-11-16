@@ -1,17 +1,20 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 
 import Head from 'next/head'
+import Image from 'next/image'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Grid, Stack, TextField, Typography } from '@mui/material'
 import { useDropzone } from 'react-dropzone'
 
+import wasteImage from '../assets/signup-waste.png'
 import Link from '../components/Link'
 import { Shop } from '../services/entities'
 import {
 	ChosenImage,
 	Content,
 	Form,
+	ImageContainer,
 	ImageSelector,
 	PhotoContainer,
 	Surface
@@ -87,14 +90,17 @@ export const SignUp = () => {
 
 			<Surface elevation={6}>
 				<Content>
+					<ImageContainer>
+						<Image src={wasteImage} alt="waste" />
+					</ImageContainer>
 					<Stack spacing={2}>
 						<Typography variant="display2">Faça seu Cadastro</Typography>
 						<Typography variant="body1" color="textSecondary">
 							Faça seu cadastro, entre na plataforma e ajude pessoas a evitarem o
 							desperdício.
 						</Typography>
-						<Link href="/">Já sou cadastrado</Link>
 					</Stack>
+					<Link href="/">Já sou cadastrado</Link>
 				</Content>
 
 				<Form onSubmit={handleSubmit}>

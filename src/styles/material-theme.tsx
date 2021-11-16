@@ -1,3 +1,4 @@
+import Fade from '@mui/material/Fade'
 import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 import { pxToRem } from '../utils/px-to-rem'
@@ -131,6 +132,12 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 				root: {
 					color: theme.text.link
 				}
+			}
+		},
+		MuiSnackbar: {
+			defaultProps: {
+				anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+				TransitionComponent: Fade
 			}
 		}
 	}

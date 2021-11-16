@@ -9,7 +9,8 @@ export const theme = {
 		disabled: '#EFEFEF',
 		main: '#f0f0f5',
 		secondary: '#d7d7d7',
-		light: '#fff'
+		light: '#fff',
+		foreground: '#F9FAFF'
 	},
 	text: {
 		main: '#13131A',
@@ -28,7 +29,7 @@ export const theme = {
 		thin: '#F0F0F5'
 	},
 	input: {
-		background: '#f0f0f5',
+		background: '#F9FAFF',
 		placeholder: '#a0a0b2',
 		text: '#6c6c80'
 	}

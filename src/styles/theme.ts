@@ -9,10 +9,11 @@ export const theme = {
 		disabled: '#EFEFEF',
 		main: '#f0f0f5',
 		secondary: '#d7d7d7',
-		light: '#fff'
+		light: '#fff',
+		foreground: '#F9FAFF'
 	},
 	text: {
-		main: '#1D2B4E',
+		main: '#13131A',
 		description: '#656A80',
 		link: '#4a90e2',
 		light: '#fff'
@@ -25,17 +26,20 @@ export const theme = {
 		green: '#00C48C'
 	},
 	border: {
-		thin: '#F0F0F5'
+		thin: '#F0F0F5',
+		darker: '#E2E2EA',
+		colored: '#F49F0E'
 	},
 	input: {
-		background: '#f0f0f5',
+		background: '#F9FAFF',
 		placeholder: '#a0a0b2',
 		text: '#6c6c80'
 	}
 }
 
-export type Theme = typeof theme
+export type StyledTheme = typeof theme
 
 declare module '@emotion/react' {
-	export type DefaultTheme = Theme
+	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	export interface Theme extends StyledTheme {}
 }

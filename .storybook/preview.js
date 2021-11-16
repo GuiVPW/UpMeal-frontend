@@ -2,6 +2,7 @@ import { Global, ThemeProvider as StyledProvider } from '@emotion/react'
 
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material/styles'
+import StyledEngineProvider from '@mui/material/StyledEngineProvider'
 
 import GlobalStyle from '../src/styles/global.styles'
 import { materialTheme } from '../src/styles/material-theme'
@@ -19,12 +20,14 @@ export const parameters = {
 
 export const decorators = [
 	Story => (
-		<ThemeProvider theme={materialTheme}>
-			<StyledProvider theme={theme}>
-				<CssBaseline />
-				<Global styles={GlobalStyle} />
-				<Story />
-			</StyledProvider>
-		</ThemeProvider>
+		<StyledEngineProvider injectFirst>
+			<ThemeProvider theme={materialTheme}>
+				<StyledProvider theme={theme}>
+					<CssBaseline />
+					<Global styles={GlobalStyle} />
+					<Story />
+				</StyledProvider>
+			</ThemeProvider>
+		</StyledEngineProvider>
 	)
 ]

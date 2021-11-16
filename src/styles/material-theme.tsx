@@ -1,7 +1,8 @@
-import { alpha, createTheme, ThemeOptions } from '@mui/material/styles'
+import Fade from '@mui/material/Fade'
+import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 import { pxToRem } from '../utils/px-to-rem'
-import { theme as colorTheme, Theme } from './theme'
+import { theme as colorTheme, StyledTheme } from './theme'
 
 declare module '@mui/material/styles' {
 	interface TypographyVariants {
@@ -17,7 +18,16 @@ declare module '@mui/material/styles' {
 	}
 }
 
-const materialBaseTheme = (theme: Theme): ThemeOptions => ({
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+	interface TypographyPropsVariantOverrides {
+		display1: true
+		display2: true
+		display3: true
+	}
+}
+
+const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 	palette: {
 		primary: {
 			main: theme.colors.primary
@@ -78,20 +88,28 @@ const materialBaseTheme = (theme: Theme): ThemeOptions => ({
 		}
 	},
 	components: {
+		MuiTypography: {
+			styleOverrides: {
+				root: {
+					color: theme.text.main
+				}
+			}
+		},
 		MuiButton: {
 			defaultProps: {
 				disableElevation: true
 			},
 			styleOverrides: {
 				root: {
-					textTransform: 'capitalize',
+					textTransform: 'uppercase',
 					fontSize: pxToRem(14),
-					borderRadius: '25px',
 					fontWeight: 600
 				},
+				contained: {
+					padding: '12px 16px',
+					color: theme.text.light
+				},
 				text: {
-					fontWeight: 400,
-					padding: '2px 5px',
 					'& .MuiButton-label': {
 						justifyContent: 'space-between'
 					}
@@ -104,41 +122,29 @@ const materialBaseTheme = (theme: Theme): ThemeOptions => ({
 			},
 			styleOverrides: {
 				root: {
-					borderRadius: 6,
 					border: `1px solid ${theme.border.thin}`,
 					fontSize: pxToRem(14),
-					marginTop: '0 !important',
 					backgroundColor: theme.input.background,
 					color: theme.input.text
 				},
 				input: {
-					padding: '14px 16px 15px',
 					'&::placeholder': {
 						color: theme.input.placeholder
 					}
 				}
 			}
 		},
-		MuiMenuItem: {
+		MuiLink: {
 			styleOverrides: {
 				root: {
-					fontSize: pxToRem(14),
-					outline: 'none',
-					'&.Mui-selected': {
-						fontWeight: 500,
-						backgroundColor: alpha(theme.colors.primary, 0.1)
-					}
+					color: theme.text.link
 				}
 			}
 		},
-		MuiDivider: {
-			styleOverrides: {
-				root: {
-					borderColor: theme.border.thin
-				},
-				wrapper: {
-					color: theme.border.thin
-				}
+		MuiSnackbar: {
+			defaultProps: {
+				anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+				TransitionComponent: Fade
 			}
 		}
 	}

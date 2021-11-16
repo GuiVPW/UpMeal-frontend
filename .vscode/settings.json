@@ -1,0 +1,12 @@
+{
+	"conventionalCommits.scopes": [
+		"eslint",
+		"typescript",
+		"emotion",
+		"build",
+		"screens",
+		"assets",
+		"prettier",
+		"storybook"
+	]
+}

@@ -93,13 +93,13 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 			},
 			styleOverrides: {
 				root: {
-					textTransform: 'capitalize',
+					textTransform: 'uppercase',
 					fontSize: pxToRem(14),
 					fontWeight: 600
-					// color: theme.text.light
 				},
 				contained: {
-					padding: '12px 16px'
+					padding: '12px 16px',
+					color: theme.text.light
 				},
 				text: {
 					'& .MuiButton-label': {

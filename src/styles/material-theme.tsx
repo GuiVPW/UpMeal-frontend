@@ -1,4 +1,4 @@
-import { alpha, createTheme, ThemeOptions } from '@mui/material/styles'
+import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 import { pxToRem } from '../utils/px-to-rem'
 import { theme as colorTheme, Theme } from './theme'

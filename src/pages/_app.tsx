@@ -7,9 +7,9 @@ import { ThemeProvider } from '@mui/material/styles'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
-import GlobalStyle from '../src/styles/global.styles'
-import { materialTheme } from '../src/styles/material-theme'
-import { theme } from '../src/styles/theme'
+import GlobalStyle from '../styles/global.styles'
+import { materialTheme } from '../styles/material-theme'
+import { theme } from '../styles/theme'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (

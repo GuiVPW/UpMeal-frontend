@@ -4,6 +4,7 @@ export interface Shop {
 	id: number
 	name: string
 	email: string
+	password: string
 	phone: string
 	city: string
 	state: string

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import LogoutIcon from '@mui/icons-material/PowerSettingsNew'
-import { AppBar, IconButton, Stack, Toolbar } from '@mui/material'
+import { AppBar, IconButton, Toolbar } from '@mui/material'
 
 import { Container, Content, Title, RightContent } from './Header.styled'
 
@@ -11,7 +11,7 @@ export interface HeaderProps {
 }
 
 export const Header = ({ handleLogout, authenticated = false }: HeaderProps) => (
-	<AppBar color="transparent" variant="elevation" position="static">
+	<AppBar color="transparent" variant="outlined" elevation={0} position="static">
 		<Toolbar>
 			<Container>
 				<Content>
@@ -21,11 +21,9 @@ export const Header = ({ handleLogout, authenticated = false }: HeaderProps) => 
 				</Content>
 				{authenticated && (
 					<RightContent>
-						<Stack direction="row" alignItems="center" justifyContent="flex-end">
-							<IconButton onClick={handleLogout}>
-								<LogoutIcon />
-							</IconButton>
-						</Stack>
+						<IconButton onClick={handleLogout}>
+							<LogoutIcon />
+						</IconButton>
 					</RightContent>
 				)}
 			</Container>

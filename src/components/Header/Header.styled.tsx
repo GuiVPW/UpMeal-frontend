@@ -5,6 +5,9 @@ export const Container = styled(Toolbar)`
 	height: 64px;
 	padding: 0px 15px 0;
 	background-color: ${props => props.theme.background.light};
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 
 	@media only screen and (min-width: 600px) {
 		&.MuiToolbar-gutters {

@@ -128,6 +128,7 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 					color: theme.input.text
 				},
 				input: {
+					backgroundColor: `${theme.input.background} !important`,
 					'&::placeholder': {
 						color: theme.input.placeholder
 					}
@@ -145,6 +146,22 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 			defaultProps: {
 				anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
 				TransitionComponent: Fade
+			},
+			styleOverrides: {
+				root: {
+					minWidth: '250px'
+				}
+			}
+		},
+		MuiAlert: {
+			styleOverrides: {
+				root: {
+					fontsize: pxToRem(24),
+					fontWeight: 600
+				},
+				filled: {
+					color: theme.text.light
+				}
 			}
 		}
 	}

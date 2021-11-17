@@ -1,3 +1,4 @@
+import { Food } from './Food'
 import { Reservation } from './Reservation'
 
 export interface Shop {
@@ -11,5 +12,6 @@ export interface Shop {
 	imageUrl?: string
 	latitude: number
 	longitude: number
-	reservations?: Reservation[]
+	reservations: Reservation[]
+	foods: Food[]
 }

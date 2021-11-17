@@ -146,6 +146,22 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 			defaultProps: {
 				anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
 				TransitionComponent: Fade
+			},
+			styleOverrides: {
+				root: {
+					minWidth: '250px'
+				}
+			}
+		},
+		MuiAlert: {
+			styleOverrides: {
+				root: {
+					fontsize: pxToRem(24),
+					fontWeight: 600
+				},
+				filled: {
+					color: theme.text.light
+				}
 			}
 		}
 	}

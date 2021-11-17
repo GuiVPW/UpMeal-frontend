@@ -11,7 +11,7 @@ export interface HeaderProps {
 }
 
 export const Header = ({ handleLogout, authenticated = false }: HeaderProps) => (
-	<AppBar color="transparent" variant="elevation" position="static">
+	<AppBar color="transparent" variant="outlined" position="static">
 		<Toolbar>
 			<Container>
 				<Content>

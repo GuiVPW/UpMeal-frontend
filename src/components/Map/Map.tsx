@@ -4,7 +4,7 @@ import { LatLngExpression } from 'leaflet'
 import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet'
 
 import { Shop } from '../../services/entities'
-import { DraggableMarker } from './components/DraggableMarker'
+import { DraggableMarker } from '../DraggableMarker/DraggableMarker'
 
 export interface PositionProps {
 	lat: number
@@ -14,10 +14,12 @@ export interface PositionProps {
 export interface MapProps {
 	location: Pick<Shop, 'latitude' | 'longitude'>
 	initialPosition: Pick<Shop, 'latitude' | 'longitude'>
+	// eslint-disable-next-line no-unused-vars
 	handleChangePosition: (position: PositionProps) => void
 }
 
 function MapEvents({ handleChangePosition }: Pick<MapProps, 'handleChangePosition'>) {
+	// eslint-disable-next-line
 	const map = useMapEvent('click', e => {
 		const { lat, lng } = e.latlng
 		handleChangePosition({ lat, lng })

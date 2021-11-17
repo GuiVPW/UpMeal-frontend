@@ -1,17 +1,22 @@
 import { useRef } from 'react'
 
 import Leaflet, { LeafletEventHandlerFnMap } from 'leaflet'
-import { Marker } from 'react-leaflet'
+import { Marker, MarkerProps } from 'react-leaflet'
 
-import { PositionProps } from '../Map'
-import mapIcon from '../icon'
+import mapIcon from '../../lib/markerIcon'
+import { PositionProps } from '../Map/Map'
 
-export interface MarkerProps {
+export interface DraggableMarkerProps extends MarkerProps {
 	position: PositionProps
+	// eslint-disable-next-line no-unused-vars
 	handleChangePosition: (position: PositionProps) => void
 }
 
-export const DraggableMarker = ({ position, handleChangePosition }: MarkerProps) => {
+export const DraggableMarker = ({
+	position,
+	handleChangePosition,
+	...rest
+}: DraggableMarkerProps) => {
 	const markerRef = useRef<Leaflet.Marker<any>>(null)
 
 	const eventHandlers: LeafletEventHandlerFnMap = {
@@ -32,6 +37,9 @@ export const DraggableMarker = ({ position, handleChangePosition }: MarkerProps)
 			position={position}
 			ref={markerRef}
 			icon={mapIcon}
+			{...rest}
 		/>
 	)
 }
+
+export default DraggableMarker

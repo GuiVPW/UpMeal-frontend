@@ -4,6 +4,7 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 import Image from 'next/image'
+import router from 'next/router'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Stack, TextField, Typography, useMediaQuery, Theme } from '@mui/material'
@@ -34,6 +35,8 @@ const Home: NextPage = () => {
 		setLoading(true)
 		setTimeout(() => {
 			setLoading(false)
+
+			setTimeout(() => router.push('/logged'), 500)
 		}, 3000)
 	}
 

@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import router from 'next/router'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Grid, Stack, TextField, Typography } from '@mui/material'
@@ -116,6 +117,7 @@ export const SignUp = () => {
 
 		setTimeout(() => {
 			setLoading(false)
+			setTimeout(() => router.push('/logged'), 500)
 		}, 3000)
 
 		console.log(signup)

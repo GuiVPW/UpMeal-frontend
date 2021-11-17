@@ -5,6 +5,9 @@ export const Container = styled(Toolbar)`
 	height: 64px;
 	padding: 0px 15px 0;
 	background-color: ${props => props.theme.background.light};
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 
 	@media only screen and (min-width: 600px) {
 		&.MuiToolbar-gutters {
@@ -28,6 +31,7 @@ export const Container = styled(Toolbar)`
 export const Title = styled(Typography)`
 	font-weight: 600;
 	margin-top: 0;
+	cursor: pointer;
 `
 
 export const Content = styled.div`

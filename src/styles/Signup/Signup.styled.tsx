@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import styled from '@emotion/styled'
 import { Paper, Box } from '@mui/material'
 
@@ -11,16 +9,13 @@ export const Surface = styled(Paper)`
 	margin-top: 0;
 
 	@media only screen and (min-width: 600px) {
-		padding: 0 40px;
-		justify-content: space-between;
-		align-items: center;
-		flex-direction: row;
+		padding: 20px 40px;
+		justify-content: center;
 	}
 `
 
 export const Form = styled.form`
 	width: 100%;
-	max-width: 450px;
 	padding: 24px;
 
 	.MuiOutlinedInput-input {
@@ -33,7 +28,6 @@ export const Content = styled.section`
 	justify-content: space-between;
 	flex-direction: column;
 	width: 100%;
-	max-width: 380px;
 	padding: 24px;
 `
 
@@ -88,4 +82,6 @@ export const ImageSelector = styled.div`
 export const ChosenImage = styled.img`
 	width: 100%;
 	height: 100%;
+	max-width: 400px;
+	max-height: 400px;
 `

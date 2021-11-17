@@ -31,7 +31,7 @@ export const theme = {
 		colored: '#F49F0E'
 	},
 	input: {
-		background: '#F9FAFF',
+		background: '#FFF',
 		placeholder: '#a0a0b2',
 		text: '#6c6c80'
 	}

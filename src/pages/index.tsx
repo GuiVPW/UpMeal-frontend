@@ -31,7 +31,6 @@ const Home: NextPage = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log(login)
 		setLoading(true)
 		setTimeout(() => {
 			setLoading(false)

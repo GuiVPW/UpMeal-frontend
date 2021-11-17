@@ -107,7 +107,6 @@ export const Logged = () => {
 	const updateFood = (foodId: number) => {
 		const updatedFood = mockedShop.foods.find(({ id }) => id === foodId)
 		const foodData = foods.find(({ id }) => id === foodId)
-		console.log(updatedFood)
 
 		if (!updatedFood) {
 			// TODO: add api call to create food with given data

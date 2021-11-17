@@ -128,6 +128,7 @@ const materialBaseTheme = (theme: StyledTheme): ThemeOptions => ({
 					color: theme.input.text
 				},
 				input: {
+					backgroundColor: `${theme.input.background} !important`,
 					'&::placeholder': {
 						color: theme.input.placeholder
 					}

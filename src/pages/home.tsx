@@ -172,11 +172,13 @@ export const Logged = () => {
 			<Container maxWidth="md">
 				<Surface elevation={6}>
 					<Stack spacing={4}>
-						<Stack alignItems="center">
-							<ImageContainer>
-								<Image src={mockedShop.imageUrl} alt="shop-image" />
-							</ImageContainer>
-						</Stack>
+						{mockedShop.imageUrl && (
+							<Stack alignItems="center">
+								<ImageContainer>
+									<Image src={mockedShop.imageUrl as any} alt="shop-image" />
+								</ImageContainer>
+							</Stack>
+						)}
 
 						<Divider flexItem variant="fullWidth" />
 

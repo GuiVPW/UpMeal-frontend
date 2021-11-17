@@ -117,7 +117,7 @@ export const SignUp = () => {
 
 		setTimeout(() => {
 			setLoading(false)
-			setTimeout(() => router.push('/logged'), 500)
+			setTimeout(() => router.push('/home'), 500)
 		}, 3000)
 	}
 

@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { ChangeEvent, useState } from 'react'
 
 import dynamic from 'next/dynamic'

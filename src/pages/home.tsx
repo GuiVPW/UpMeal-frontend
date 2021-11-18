@@ -226,128 +226,114 @@ export const Logged = () => {
 							</>
 						)}
 
-						{foods.length > 0 && (
-							<>
-								<Divider flexItem variant="fullWidth" />
+						<Divider flexItem variant="fullWidth" />
 
-								<Typography variant="display2">Alimentos</Typography>
-								<form>
-									<FoodContainer alignItems="center" spacing={1}>
-										{foods.map(food => (
-											<Grid
-												container
-												key={food.id}
-												alignItems="center"
-												justifyContent="space-between"
-												spacing={1}
-											>
-												<Grid item xs={5}>
-													<Autocomplete
-														options={foodOptions}
-														freeSolo
-														autoHighlight
-														value={food.name}
-														fullWidth
-														onChange={(_, newValue) =>
-															handleChangeAutocomplete({
-																id: food.id,
-																key: 'name',
-																value: newValue ?? ''
-															})
-														}
-														renderInput={params => (
-															<TextField
-																required
-																variant="outlined"
-																{...params}
-																helperText="Nome*"
-															/>
-														)}
-													/>
-												</Grid>
-												<Grid item xs={2}>
+						<Typography variant="display2">Alimentos</Typography>
+						<form>
+							<FoodContainer alignItems="center" spacing={1}>
+								{foods.map(food => (
+									<Grid
+										container
+										key={food.id}
+										alignItems="center"
+										justifyContent="space-between"
+										spacing={1}
+									>
+										<Grid item xs={5}>
+											<Autocomplete
+												options={foodOptions}
+												freeSolo
+												autoHighlight
+												value={food.name}
+												fullWidth
+												onChange={(_, newValue) =>
+													handleChangeAutocomplete({
+														id: food.id,
+														key: 'name',
+														value: newValue ?? ''
+													})
+												}
+												renderInput={params => (
 													<TextField
-														helperText="Quantidade*"
-														variant="outlined"
 														required
-														onChange={handleChangeField(food.id, 'quantity')}
-														value={food.quantity}
-														type="number"
-														// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-														// @ts-ignore
-														step=".01"
-														onInput={(e: any) => {
-															e.target.value = parseFloat(
-																e.target.value.toString().slice(0, 4)
-															)
-														}}
-														InputProps={{
-															inputProps: {
-																min: 0,
-																max: 100
-															},
-															endAdornment: (
-																<InputAdornment position="end">
-																	<strong>kg</strong>
-																</InputAdornment>
-															)
-														}}
+														variant="outlined"
+														{...params}
+														helperText="Nome*"
 													/>
-												</Grid>
-												<Grid item sx={{ marginBottom: '16px' }}>
-													<FormControl required component="fieldset">
-														<FormLabel component="legend">Disponível</FormLabel>
-														<RadioGroup
-															row
-															value={food.availability}
-															onChange={handleChangeField(food.id, 'availability')}
-														>
-															<FormControlLabel
-																value={false}
-																control={<Radio />}
-																label="Sim"
-															/>
-															<FormControlLabel
-																value={true}
-																control={<Radio />}
-																label="Não"
-															/>
-														</RadioGroup>
-													</FormControl>
-												</Grid>
-												<Grid item>
-													<IconButton
-														color="success"
-														disabled={
-															food.name === '' ||
-															food.quantity === 0 ||
-															food.availability === undefined
-														}
-														onClick={() => updateFood(food.id)}
-													>
-														<CheckIcon />
-													</IconButton>
-												</Grid>
-												<Grid item>
-													<IconButton color="error" onClick={() => removeFood(food.id)}>
-														<CloseIcon />
-													</IconButton>
-												</Grid>
-											</Grid>
-										))}
-										<Button
-											sx={{ borderRadius: '24px', paddingY: '8px', paddingX: '40px' }}
-											variant="outlined"
-											onClick={() => addFood()}
-											startIcon={<PlusIcon />}
-											disabled={foods[foods.length - 1].name === ''}
-										>
-											Adicionar Alimento
-										</Button>
-									</FoodContainer>
-								</form>
-							</>
-						)}
+												)}
+											/>
+										</Grid>
+										<Grid item xs={2}>
+											<TextField
+												helperText="Quantidade*"
+												variant="outlined"
+												required
+												onChange={handleChangeField(food.id, 'quantity')}
+												value={food.quantity}
+												type="number"
+												// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+												// @ts-ignore
+												step=".01"
+												onInput={(e: any) => {
+													e.target.value = parseFloat(e.target.value.toString().slice(0, 4))
+												}}
+												InputProps={{
+													inputProps: {
+														min: 0,
+														max: 100
+													},
+													endAdornment: (
+														<InputAdornment position="end">
+															<strong>kg</strong>
+														</InputAdornment>
+													)
+												}}
+											/>
+										</Grid>
+										<Grid item sx={{ marginBottom: '16px' }}>
+											<FormControl required component="fieldset">
+												<FormLabel component="legend">Disponível</FormLabel>
+												<RadioGroup
+													row
+													value={food.availability}
+													onChange={handleChangeField(food.id, 'availability')}
+												>
+													<FormControlLabel value={false} control={<Radio />} label="Sim" />
+													<FormControlLabel value={true} control={<Radio />} label="Não" />
+												</RadioGroup>
+											</FormControl>
+										</Grid>
+										<Grid item>
+											<IconButton
+												color="success"
+												disabled={
+													food.name === '' ||
+													food.quantity === 0 ||
+													food.availability === undefined
+												}
+												onClick={() => updateFood(food.id)}
+											>
+												<CheckIcon />
+											</IconButton>
+										</Grid>
+										<Grid item>
+											<IconButton color="error" onClick={() => removeFood(food.id)}>
+												<CloseIcon />
+											</IconButton>
+										</Grid>
+									</Grid>
+								))}
+								<Button
+									sx={{ borderRadius: '24px', paddingY: '8px', paddingX: '40px' }}
+									variant="outlined"
+									onClick={() => addFood()}
+									startIcon={<PlusIcon />}
+									disabled={foods[foods.length - 1].name === ''}
+								>
+									Adicionar Alimento
+								</Button>
+							</FoodContainer>
+						</form>
 					</Stack>
 				</Surface>
 			</Container>

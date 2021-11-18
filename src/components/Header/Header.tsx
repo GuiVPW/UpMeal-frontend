@@ -3,7 +3,8 @@ import Link from 'next/link'
 import LogoutIcon from '@mui/icons-material/PowerSettingsNew'
 import { AppBar, IconButton, Toolbar } from '@mui/material'
 
-import { Container, Content, Title, RightContent } from './Header.styled'
+import icon from '../../assets/icon.png'
+import { Container, Content, Logo, RightContent } from './Header.styled'
 
 export interface HeaderProps {
 	handleLogout: () => void
@@ -16,16 +17,16 @@ export const Header = ({ handleLogout, authenticated = false }: HeaderProps) => 
 			<Container>
 				<Content>
 					<Link href="/" passHref>
-						<Title variant="h1">Up Meal</Title>
+						<Logo src={icon} alt="icon-title" width={48} height={48} loading="eager" />
 					</Link>
+					{authenticated && (
+						<RightContent>
+							<IconButton onClick={handleLogout}>
+								<LogoutIcon />
+							</IconButton>
+						</RightContent>
+					)}
 				</Content>
-				{authenticated && (
-					<RightContent>
-						<IconButton onClick={handleLogout}>
-							<LogoutIcon />
-						</IconButton>
-					</RightContent>
-				)}
 			</Container>
 		</Toolbar>
 	</AppBar>

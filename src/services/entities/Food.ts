@@ -3,5 +3,6 @@ export interface Food {
 	name: string
 	quantity: number
 	availability: boolean
+	validity: Date
 	shopId: number
 }

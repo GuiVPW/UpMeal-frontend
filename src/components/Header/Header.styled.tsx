@@ -1,6 +1,7 @@
+import Image from 'next/image'
+
 import styled from '@emotion/styled'
 import { Toolbar, Typography } from '@mui/material'
-
 export const Container = styled(Toolbar)`
 	height: 64px;
 	padding: 0px 15px 0;
@@ -47,4 +48,8 @@ export const RightContent = styled.nav`
 	display: flex;
 	align-items: center;
 	height: 100%;
+`
+
+export const Logo = styled(Image)`
+	cursor: pointer;
 `

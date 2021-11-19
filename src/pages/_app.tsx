@@ -6,12 +6,15 @@ import { ThemeProvider as StyledProvider } from '@emotion/react'
 
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/system'
+import { StoreContext } from 'storeon/react'
 
 import Layout from '../components/Layout'
 import createEmotionCache from '../lib/emotionCache.config'
+import { store } from '../state/store'
 import { GlobalStyle } from '../styles/global.styles'
 import { materialTheme } from '../styles/material-theme'
 import { theme } from '../styles/theme'
+
 import 'leaflet/dist/leaflet.css'
 
 const clientSideEmotionCache = createEmotionCache()
@@ -23,21 +26,23 @@ interface MyAppProps extends AppProps {
 export const App = (props: MyAppProps) => {
 	const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 	return (
-		<CacheProvider value={emotionCache}>
-			<Head>
-				<title>UpMeal</title>
-				<meta name="viewport" content="initial-scale=1, width=device-width" />
-			</Head>
-			<ThemeProvider theme={materialTheme}>
-				<StyledProvider theme={theme}>
-					<CssBaseline />
-					<Global styles={GlobalStyle} />
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</StyledProvider>
-			</ThemeProvider>
-		</CacheProvider>
+		<StoreContext.Provider value={store}>
+			<CacheProvider value={emotionCache}>
+				<Head>
+					<title>UpMeal</title>
+					<meta name="viewport" content="initial-scale=1, width=device-width" />
+				</Head>
+				<ThemeProvider theme={materialTheme}>
+					<StyledProvider theme={theme}>
+						<CssBaseline />
+						<Global styles={GlobalStyle} />
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</StyledProvider>
+				</ThemeProvider>
+			</CacheProvider>
+		</StoreContext.Provider>
 	)
 }
 

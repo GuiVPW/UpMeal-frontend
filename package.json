@@ -18,14 +18,18 @@
 		"@mui/icons-material": "^5.1.0",
 		"@mui/lab": "^5.0.0-alpha.54",
 		"@mui/material": "^5.1.0",
+		"@mui/x-data-grid": "^5.0.1",
+		"@storeon/localstorage": "^1.4.0",
+		"axios": "^0.24.0",
 		"clsx": "^1.1.1",
+		"date-fns": "^2.26.0",
 		"leaflet": "^1.7.1",
 		"next": "12.0.3",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
 		"react-dropzone": "^11.4.2",
 		"react-leaflet": "^3.2.2",
-		"swr": "^1.0.1"
+		"storeon": "^3.1.4"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.0",
@@ -35,6 +39,8 @@
 		"@storybook/addon-links": "^6.3.12",
 		"@storybook/cli": "^6.3.12",
 		"@storybook/react": "^6.3.12",
+		"@types/axios": "^0.14.0",
+		"@types/date-fns": "^2.6.0",
 		"@types/leaflet": "^1.7.6",
 		"@types/node": "16.11.7",
 		"@types/react": "17.0.34",

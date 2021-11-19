@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { Container } from '@mui/material'
 
 export const FormSection = styled.section`
 	width: 100%;
@@ -15,4 +16,9 @@ export const StyledForm = styled.form`
 	@media only screen and (min-width: 600px) {
 		margin-top: 100px;
 	}
+`
+
+export const StyledContainer = styled(Container)`
+	padding-left: 0;
+	padding-right: 0;
 `

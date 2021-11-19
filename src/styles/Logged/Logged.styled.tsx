@@ -2,10 +2,14 @@ import styled from '@emotion/styled'
 import { Paper, Stack } from '@mui/material'
 
 export const Surface = styled(Paper)`
-	padding: 40px;
+	padding: 20px 20px;
 	padding-top: 0;
 	width: 100%;
 	height: 100%;
+
+	@media only screen and (min-width: 768px) {
+		padding: 40px;
+	}
 `
 
 export const ImageContainer = styled.div`

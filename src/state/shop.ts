@@ -34,7 +34,11 @@ export const shopModule: IStoreonModule = store => {
 	store.on('shop/getShop', async state => {
 		store.dispatch('shop/loading', true)
 
-		const shopData = await api.post(`/shops/${state.shop?.id}`, {})
+		if (!state.token && !state.shop) {
+			return
+		}
+
+		const shopData = await api.get(`/shops/${state.shop?.id}`)
 
 		store.dispatch('shop/loading', shopData.data)
 	})

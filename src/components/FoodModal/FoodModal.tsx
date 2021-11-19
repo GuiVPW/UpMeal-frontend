@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { DatePicker, LocalizationProvider } from '@mui/lab'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
@@ -38,6 +38,10 @@ export const FoodModal = ({
 }: FoodModalProps) => {
 	const [form, setForm] = useState<ModalForm>(data)
 
+	useEffect(() => {
+		setForm(data)
+	}, [data])
+
 	function handleChangeQuantity(quantity: number) {
 		setForm({ ...form, quantity })
 	}
@@ -61,7 +65,10 @@ export const FoodModal = ({
 			open={open}
 			okLoading={loading}
 			onOkDisabled={loading || !form?.name || !form?.quantity || !form?.validationDate}
-			onOk={() => handleOk(form as Food)}
+			onOk={() => {
+				handleOk(form as Food)
+				setForm({})
+			}}
 			dialogProps={{ fullWidth: true }}
 			showCloseButton
 			title={data ? 'Alterar alimento' : 'Adicionar alimento'}

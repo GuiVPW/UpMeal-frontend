@@ -49,19 +49,18 @@ export const Logged = () => {
 		setLoading(false)
 	}
 
-	const addFood = async (food: Omit<Food, 'shopId' | 'id'>) => {
+	const addFood = async (food: MakeKeyOptional<Food, 'shopId' | 'id'>) => {
 		const { validationDate, ...fields } = food
 
 		const { data } = await api.post(`/shops/${shop.id}/foods`, {
 			...fields,
+			shopId: shop.id,
 			validationDate: format(validationDate as Date, 'yyyy-MM-dd')
 		})
 
-		setFoods(prev => [
-			...prev,
-			{ ...data, validationDate: format(data.validationDate, 'dd/MM/yy') }
-		])
+		setFoods(prev => [...prev, { ...data, validationDate: new Date(data.validationDate) }])
 		setUpdateVisible(false)
+
 		return setAlert({ open: true, message: 'Alimento criado' })
 	}
 
@@ -154,20 +153,12 @@ export const Logged = () => {
 							</MapFooter>
 						</MapContainer>
 
-						{shop.reservations.length > 0 && (
-							<>
-								<Divider flexItem variant="fullWidth" />
-
-								<Typography variant="display2">Reservas</Typography>
-							</>
-						)}
-
 						<Divider flexItem variant="fullWidth" />
 
 						<Typography variant="display2">Alimentos</Typography>
 						<form>
 							<FoodsTable
-								foods={shop.foods}
+								foods={foods}
 								onDeleteRow={removeFood}
 								onOpenUpdate={openUpdateModal}
 								loading={loading}

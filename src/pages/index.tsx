@@ -47,10 +47,7 @@ const Home: NextPage = () => {
 		setLoading(true)
 
 		api
-			.post<Shop>('/shops/authenticate', {
-				username: login.email,
-				password: login.password
-			})
+			.post<Shop>('/shops/authenticate', login)
 			.then(({ data }) => {
 				setLoading(false)
 				const token = Buffer.from(`${login.email}:${login.password}`).toString('base64')
@@ -101,7 +98,7 @@ const Home: NextPage = () => {
 						</LoadingButton>
 					</Stack>
 
-					<Link href="signup">Não tenho cadastro</Link>
+					<Link href="/signup">Não tenho cadastro</Link>
 				</StyledForm>
 			</FormSection>
 			{mdUp && <Image src={homeImage} alt="people-hugging" />}

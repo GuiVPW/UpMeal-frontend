@@ -56,8 +56,8 @@ export const Modal = ({
 	open,
 	onClose,
 	title,
-	okText = 'ok',
-	cancelText = 'Cancel',
+	okText = 'Finalizar',
+	cancelText = 'Cancelar',
 	size = 'normal',
 	onOk,
 	onCancel,
@@ -82,7 +82,9 @@ export const Modal = ({
 		open={open}
 		onClose={onClose}
 		maxWidth={maxWidth}
-		PaperComponent={S.Wrapper}
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		PaperComponent={<S.Wrapper />}
 		PaperProps={{ elevation: 7 }}
 		scroll={onlyContent ? 'body' : 'paper'}
 		{...dialogProps}
@@ -114,12 +116,7 @@ export const Modal = ({
 			</DialogTitle>
 		)}
 		{(children && (
-			<S.ModalContent
-				size={size}
-				onlyContent={onlyContent}
-				showCloseButton={showCloseButton}
-				className="custom-scrollbar"
-			>
+			<S.ModalContent showCloseButton={showCloseButton} className="custom-scrollbar">
 				{children}
 			</S.ModalContent>
 		)) ||

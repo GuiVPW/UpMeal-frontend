@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components'
-
+import css from '@emotion/css'
 import { Paper, DialogContent } from '@mui/material'
+import { styled } from '@mui/system'
 
 // eslint-disable-next-line import/no-cycle
 import { ModalProps } from './Modal'
@@ -23,24 +23,19 @@ export const Wrapper = styled(Paper)`
 
 type ModalContentProps = Pick<ModalProps, 'onlyContent' | 'size' | 'showCloseButton'>
 
-export const ModalContent = styled(DialogContent).withConfig<ModalContentProps>({
-	shouldForwardProp: prop => !['onlyContent', 'size', 'showCloseButton'].includes(prop)
-})`
-	padding: 8px 24px;
-	${props =>
-		props.showCloseButton &&
-		css`
-			padding-bottom: 32px;
-		`}
-	${props =>
-		props.onlyContent
+export const ModalContent = styled(DialogContent)<ModalContentProps>(props => ({
+	padding: '8px 24px',
+	...css`
+		padding-bottom: ${props.showCloseButton && 32};
+
+		${props.onlyContent
 			? css`
 					@media only screen and (max-width: 960px) {
 						padding: 24px;
 					}
 			  `
-			: props.size === 'big' &&
-			  css`
-					padding-top: 20px;
-			  `};
-`
+			: props.size === 'big' && {
+					paddingTop: '20px'
+			  }}
+	`
+}))

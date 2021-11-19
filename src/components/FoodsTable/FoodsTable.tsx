@@ -40,7 +40,7 @@ export const FoodsTable = ({
 		{
 			field: 'name',
 			headerName: 'Nome',
-			width: 220,
+			width: 200,
 			editable: false,
 			type: 'singleSelect',
 			headerAlign: 'center',
@@ -59,7 +59,8 @@ export const FoodsTable = ({
 			editable: false,
 			headerAlign: 'center',
 			align: 'center',
-			sortable: false
+			sortable: false,
+			width: 160
 		},
 		{
 			field: 'validationDate',
@@ -82,7 +83,7 @@ export const FoodsTable = ({
 			field: 'isAvailable',
 			headerName: 'Disponibilidade',
 			type: 'boolean',
-			width: 220,
+			width: 180,
 			editable: false,
 			sortable: false
 		},

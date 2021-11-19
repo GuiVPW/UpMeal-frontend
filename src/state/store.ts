@@ -1,6 +1,6 @@
 import { persistState } from '@storeon/localstorage'
+import { createStoreon } from 'storeon'
 import { storeonDevtools } from 'storeon/devtools'
-import { createStoreon } from 'storeon/react'
 
 import { ShopEvents, ShopState, shopModule } from './shop'
 

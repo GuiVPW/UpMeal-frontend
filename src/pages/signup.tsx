@@ -9,6 +9,9 @@ import { Grid, Stack, TextField, Typography } from '@mui/material'
 import { useDropzone } from 'react-dropzone'
 
 import Link from '../components/Link'
+import Snackbar, { AlertState } from '../components/Snackbar'
+import { useStoreon } from '../hooks/useStoreon'
+import { api } from '../services/api'
 import { Shop } from '../services/entities'
 import {
 	ChosenImage,
@@ -28,6 +31,11 @@ type SignupForm = Partial<OmitProperty<Shop, 'id' | 'reservations' | 'imageUrl'>
 
 export const SignUp = () => {
 	const DynamicMap = dynamic(() => import('../components/Map'), { ssr: false })
+	const { dispatch } = useStoreon()
+	const [alertError, setAlertError] = useState<AlertState>({
+		open: false,
+		message: 'Os dados inseridos estão incorretos ou inválidos. Tente novamente.'
+	})
 
 	const [initialPosition, setInitialPosition] = useState<
 		Pick<SignupForm, 'latitude' | 'longitude'>
@@ -105,20 +113,23 @@ export const SignUp = () => {
 		})
 	}
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		setLoading(true)
-		const data = new FormData()
 
-		for (const field in signup) {
-			data.append(field, String(signup[field as keyof SignupForm]))
-		}
+		const response = await api.post<Shop>('/shops', signup)
 
-		setTimeout(() => {
+		if (response.data) {
+			const token = Buffer.from(`${signup.email}:${signup.password}`).toString('base64')
+			dispatch('shop/set', { shop: response.data, loadingShop: false, token })
+
+			router.push('/home')
 			setLoading(false)
-			setTimeout(() => router.push('/home'), 500)
-		}, 3000)
+		} else {
+			setLoading(false)
+			setAlertError({ ...alertError, open: true })
+		}
 	}
 
 	return (
@@ -227,6 +238,13 @@ export const SignUp = () => {
 						Cadastrar
 					</LoadingButton>
 				</Form>
+				<Snackbar
+					type="error"
+					open={alertError.open}
+					handleClose={() => setAlertError({ ...alertError, open: false })}
+				>
+					{alertError.message}
+				</Snackbar>
 			</Surface>
 		</>
 	)

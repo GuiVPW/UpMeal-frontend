@@ -2,7 +2,7 @@ export interface Food {
 	id: number
 	name: string
 	quantity: number
-	availability: boolean
-	validity: Date
+	isAvailable: boolean
+	validationDate: Date
 	shopId: number
 }

@@ -84,7 +84,7 @@ export const Modal = ({
 		maxWidth={maxWidth}
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		PaperComponent={<S.Wrapper />}
+		PaperComponent={S.Wrapper}
 		PaperProps={{ elevation: 7 }}
 		scroll={onlyContent ? 'body' : 'paper'}
 		{...dialogProps}
@@ -145,7 +145,7 @@ export const Modal = ({
 							}
 							disabled={okLoading}
 							variant="contained"
-							color="secondary"
+							color="primary"
 							{...buttonProps}
 							{...cancelButtonProps}
 							style={{
@@ -173,6 +173,7 @@ export const Modal = ({
 							}
 							loading={okLoading}
 							fullWidth
+							color="secondary"
 							variant="contained"
 							{...buttonProps}
 							{...okButtonProps}

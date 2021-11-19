@@ -8,7 +8,6 @@ import { DataGrid, GridActionsCellItem, GridColumns } from '@mui/x-data-grid'
 
 import foodsData from '../../data/foods.json'
 import { Food } from '../../services/entities'
-import { chunkArray } from '../../utils/chunkArray'
 
 export interface FoodTableProps {
 	foods: Food[]
@@ -24,7 +23,6 @@ export const FoodsTable = ({
 	loading
 }: FoodTableProps) => {
 	const perPage = 5
-	const chunkedFoods = chunkArray(foods, perPage)
 	const [page, setPage] = useState<number>(0)
 
 	const handleDeleteClick = (id: number) => (event: any) => {
@@ -40,7 +38,7 @@ export const FoodsTable = ({
 		{
 			field: 'name',
 			headerName: 'Nome',
-			width: 200,
+			width: 180,
 			editable: false,
 			type: 'singleSelect',
 			headerAlign: 'center',
@@ -60,13 +58,13 @@ export const FoodsTable = ({
 			headerAlign: 'center',
 			align: 'center',
 			sortable: false,
-			width: 160
+			width: 150
 		},
 		{
 			field: 'validationDate',
 			headerName: 'Data de validade',
 			type: 'date',
-			width: 180,
+			width: 170,
 			editable: false,
 			headerAlign: 'center',
 			align: 'center',
@@ -83,7 +81,7 @@ export const FoodsTable = ({
 			field: 'isAvailable',
 			headerName: 'Disponibilidade',
 			type: 'boolean',
-			width: 180,
+			width: 170,
 			editable: false,
 			sortable: false
 		},
@@ -115,7 +113,7 @@ export const FoodsTable = ({
 	return (
 		<div style={{ height: 500, width: '100%' }}>
 			<DataGrid
-				rows={chunkedFoods[page]}
+				rows={foods}
 				columns={columns}
 				editMode="row"
 				loading={loading}

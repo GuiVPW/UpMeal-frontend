@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 
 import type { NextPage } from 'next'
 
@@ -11,6 +11,10 @@ import { Stack, TextField, Typography, useMediaQuery, Theme } from '@mui/materia
 
 import homeImage from '../assets/home-people.png'
 import Link from '../components/Link'
+import Snackbar, { AlertState } from '../components/Snackbar'
+import { useStoreon } from '../hooks/useStoreon'
+import { api } from '../services/api'
+import { Shop } from '../services/entities'
 import { FormSection, StyledForm } from '../styles/Home'
 
 interface LoginForm {
@@ -19,8 +23,13 @@ interface LoginForm {
 }
 
 const Home: NextPage = () => {
+	const { dispatch } = useStoreon()
+	const [alertError, setAlertError] = useState<AlertState>({
+		open: false,
+		message: 'Os dados inseridos estão incorretos ou inválidos. Tente novamente.'
+	})
 	const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'))
-	const [login, setLogin] = useState<LoginForm>()
+	const [login, setLogin] = useState<LoginForm>({ email: '', password: '' })
 	const [loading, setLoading] = useState(false)
 	const disabledCondition =
 		!login || !(login.email && login.password && login.password.length >= 6)
@@ -29,14 +38,28 @@ const Home: NextPage = () => {
 		setLogin({ ...login, [key]: e.target.value })
 	}
 
+	useEffect(() => {
+		router.prefetch('/home')
+	}, [])
+
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setLoading(true)
-		setTimeout(() => {
-			setLoading(false)
 
-			setTimeout(() => router.push('/home'), 500)
-		}, 3000)
+		api
+			.post<Shop>('/shops/authenticate', login)
+			.then(({ data }) => {
+				setLoading(false)
+				const token = Buffer.from(`${login.email}:${login.password}`).toString('base64')
+
+				dispatch('shop/set', { shop: data, loadingShop: false, token })
+
+				router.push('/home')
+			})
+			.catch(() => {
+				setLoading(false)
+				setAlertError({ ...alertError, open: true })
+			})
 	}
 
 	return (
@@ -75,10 +98,17 @@ const Home: NextPage = () => {
 						</LoadingButton>
 					</Stack>
 
-					<Link href="signup">Não tenho cadastro</Link>
+					<Link href="/signup">Não tenho cadastro</Link>
 				</StyledForm>
 			</FormSection>
 			{mdUp && <Image src={homeImage} alt="people-hugging" />}
+			<Snackbar
+				type="error"
+				open={alertError.open}
+				handleClose={() => setAlertError({ ...alertError, open: false })}
+			>
+				{alertError.message}
+			</Snackbar>
 		</>
 	)
 }

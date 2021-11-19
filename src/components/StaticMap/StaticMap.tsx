@@ -14,7 +14,7 @@ export const StaticMap = ({ location }: MapProps) => {
 		<MapContainer
 			center={[location.latitude, location.longitude]}
 			style={{ width: '100%', height: '280px' }}
-			zoom={16}
+			zoom={13}
 			scrollWheelZoom={false}
 			preferCanvas
 			dragging={false}

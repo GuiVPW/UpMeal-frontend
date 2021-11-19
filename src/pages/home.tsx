@@ -6,7 +6,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import { Add as PlusIcon } from '@mui/icons-material'
-import { Button, Container, Divider, Stack, Typography } from '@mui/material'
+import { Button, Divider, Stack, Typography } from '@mui/material'
 import { format } from 'date-fns'
 
 import FoodModal from '../components/FoodModal'
@@ -17,6 +17,7 @@ import { useStoreon } from '../hooks/useStoreon'
 import withAuth from '../hooks/withAuthHOC'
 import { api } from '../services/api'
 import { Food, Shop } from '../services/entities'
+import { StyledContainer } from '../styles/Home'
 import { ImageContainer, MapContainer, MapFooter, Surface } from '../styles/Logged'
 import { MakeKeyOptional } from '../types/string'
 
@@ -65,7 +66,12 @@ export const Logged = () => {
 	}
 
 	const updateFood = async (food: MakeKeyOptional<Food, 'shopId' | 'id'>) => {
-		const response = await api.put(`/shops/${shop.id}/foods/${food.id}`, food)
+		const { validationDate, ...fields } = food
+
+		const response = await api.put(`/shops/${shop.id}/foods/${food.id}`, {
+			...fields,
+			validationDate: format(validationDate as Date, 'yyyy-MM-dd')
+		} as Food)
 
 		if (!response.data) {
 			return setAlertError({
@@ -99,7 +105,7 @@ export const Logged = () => {
 				<title>Home</title>
 			</Head>
 
-			<Container maxWidth="md">
+			<StyledContainer maxWidth="md">
 				<Surface elevation={6}>
 					<Stack spacing={4}>
 						{shop.imageUrl && (
@@ -167,18 +173,24 @@ export const Logged = () => {
 								loading={loading}
 							/>
 							<Button
-								sx={{ borderRadius: '24px', paddingY: '8px', paddingX: '40px' }}
+								sx={{
+									borderRadius: '24px',
+									paddingY: '8px',
+									paddingX: '40px',
+									marginTop: '16px'
+								}}
 								variant="outlined"
+								fullWidth
 								onClick={() => openNewModal()}
 								startIcon={<PlusIcon />}
-								disabled={foods[foods.length - 1].name === ''}
+								disabled={loading}
 							>
 								Adicionar Alimento
 							</Button>
 						</form>
 					</Stack>
 				</Surface>
-			</Container>
+			</StyledContainer>
 			<FoodModal
 				data={updatedFood}
 				open={updateVisible}

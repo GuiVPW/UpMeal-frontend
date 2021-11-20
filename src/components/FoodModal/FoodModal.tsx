@@ -24,6 +24,7 @@ export interface FoodModalProps {
 	loading?: boolean
 	data?: Food
 	handleClose: () => void
+	// eslint-disable-next-line no-unused-vars
 	handleOk: (data: MakeKeyOptional<Food, 'id' | 'shopId'>) => void
 }
 

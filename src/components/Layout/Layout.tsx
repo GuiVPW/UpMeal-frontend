@@ -14,6 +14,7 @@ export const Layout: FC = ({ children }) => {
 		if (!shop) {
 			router.push('/')
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (

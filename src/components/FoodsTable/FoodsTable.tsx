@@ -12,7 +12,9 @@ import { Food } from '../../services/entities'
 export interface FoodTableProps {
 	foods: Food[]
 	loading: boolean
+	// eslint-disable-next-line no-unused-vars
 	onDeleteRow: (id: number) => void
+	// eslint-disable-next-line no-unused-vars
 	onOpenUpdate: (id: number) => void
 }
 

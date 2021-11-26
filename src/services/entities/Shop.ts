@@ -5,13 +5,13 @@ export interface Shop {
 	id: number
 	name: string
 	email: string
-	password: string
+	password?: string
 	phone: string
 	city: string
 	state: string
 	imageUrl?: string
 	latitude: number
 	longitude: number
-	reservations: Reservation[]
-	foods: Food[]
+	reservations?: Reservation[]
+	foods?: Food[]
 }

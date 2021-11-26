@@ -7,15 +7,14 @@ import { Header } from '../Header'
 import { Content, LayoutContainer } from './Layout.styled'
 
 export const Layout: FC = ({ children }) => {
-	const { dispatch, shop } = useStoreon('shop')
+	const { dispatch, token, loadingShop } = useStoreon('token', 'loadingShop')
 	const router = useRouter()
 
 	useEffect(() => {
-		if (!shop) {
+		if (!token && !loadingShop) {
 			router.push('/')
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [loadingShop, token])
 
 	return (
 		<LayoutContainer>

@@ -1,7 +1,7 @@
 import { IStoreonModule } from 'storeon'
 
 import { api } from '../services/api'
-import { Shop } from '../services/entities'
+import { Shop, Food } from '../services/entities'
 
 export interface ShopState {
 	token: string | null
@@ -16,6 +16,7 @@ export interface ShopEvents {
 	'shop/getShop': void
 	'shop/loading': boolean
 	'shop/setShop': ShopState['shop']
+	'food/setShopFoods': Food[]
 	'shop/signOut': void
 }
 
@@ -26,7 +27,7 @@ export const shopModule: IStoreonModule = store => {
 	}))
 
 	store.on('@changed', (_state, data) => {
-		if ((data?.token && !data?.shop) || (data?.token && data?.shop)) {
+		if (data?.token && !data?.shop) {
 			store.dispatch('shop/getShop')
 		}
 	})
@@ -35,12 +36,19 @@ export const shopModule: IStoreonModule = store => {
 		store.dispatch('shop/loading', true)
 
 		if (!state.token && !state.shop) {
+			store.dispatch('shop/loading', false)
 			return
 		}
 
-		const shopData = await api.get(`/shops/${state.shop?.id}`)
+		try {
+			const response = await api.get(`/shops/me`)
 
-		store.dispatch('shop/loading', shopData.data)
+			store.dispatch('shop/loading', false)
+			store.dispatch('shop/setShop', response.data.me)
+		} catch {
+			store.dispatch('shop/loading', false)
+			store.dispatch('shop/signOut')
+		}
 	})
 
 	store.on('shop/signOut', () => {
@@ -60,8 +68,7 @@ export const shopModule: IStoreonModule = store => {
 	}))
 
 	store.on('shop/loading', (_state, isLoading) => ({
-		loadingShop: isLoading,
-		loading: isLoading
+		loadingShop: isLoading
 	}))
 
 	store.on('shop/setToken', (_state, token) => ({

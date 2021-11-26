@@ -22,6 +22,7 @@ export const Layout: FC = ({ children }) => {
 				handleLogout={() => {
 					dispatch('shop/signOut')
 				}}
+				authenticated={typeof token === 'string' && !loadingShop}
 			/>
 			<Content maxWidth="md">{children}</Content>
 		</LayoutContainer>

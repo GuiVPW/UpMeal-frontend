@@ -3,7 +3,7 @@ import { Axios } from 'axios'
 import { Shop } from './entities'
 
 export const api = new Axios({
-	baseURL: process.env.API_URL || 'http://localhost:8080/api/rest',
+	baseURL: process.env.API_URL || 'http://localhost:8080',
 	timeout: 5000,
 	headers: {
 		'Content-type': 'application/json'
@@ -22,7 +22,11 @@ export const api = new Axios({
 	],
 	transformResponse: [
 		function transformResponse(data) {
-			return JSON.parse(data)
+			try {
+				return JSON.parse(data)
+			} catch {
+				return data
+			}
 		}
 	]
 })
@@ -35,7 +39,11 @@ api.interceptors.request.use(config => {
 	if (storeon) {
 		const { token } = JSON.parse(storeon) as { token: string; shop: Shop }
 
-		const newHeaders = { ...headers, Authorization: `Basic ${token}` }
+		if (!token) {
+			return config
+		}
+
+		const newHeaders = { ...headers, Authorization: token }
 
 		config.headers = newHeaders
 	}

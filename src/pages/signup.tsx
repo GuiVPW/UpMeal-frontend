@@ -6,12 +6,12 @@ import router from 'next/router'
 
 import LoadingButton from '@mui/lab/LoadingButton'
 import { Grid, Stack, TextField, Typography } from '@mui/material'
+import axios from 'axios'
 import { useDropzone } from 'react-dropzone'
 
 import Link from '../components/Link'
 import Snackbar, { AlertState } from '../components/Snackbar'
 import { useStoreon } from '../hooks/useStoreon'
-import { api } from '../services/api'
 import { Shop } from '../services/entities'
 import {
 	ChosenImage,
@@ -46,13 +46,14 @@ export const SignUp = () => {
 	const [signup, setSignup] = useState<SignupForm>(initialPosition)
 	const [loading, setLoading] = useState(false)
 	const [avatar, setAvatar] = useState<string>()
-	const [, setAvatarFile] = useState<File>()
+	const [file, setFile] = useState<File>()
 
 	const disabledCondition =
 		!signup ||
 		!(
 			signup.email &&
 			signup.password &&
+			signup.password.length >= 6 &&
 			signup.name &&
 			signup.phone &&
 			signup.state &&
@@ -81,16 +82,16 @@ export const SignUp = () => {
 	const onDrop = useCallback(([file], [error]) => {
 		if (file) {
 			setAvatar(URL.createObjectURL(file))
-			setAvatarFile(file)
+			setFile(file)
 		}
 
 		error?.errors.forEach(({ code }: { code: any }) => {
 			if (code === 'file-invalid-type') {
-				return alert('File format not valid')
+				return alert('Formato do arquivo não é válida')
 			}
 
 			if (code === 'file-too-large') {
-				return alert('File too large')
+				return alert('Arquivo muito grande')
 			}
 		})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +101,7 @@ export const SignUp = () => {
 		onDrop,
 		accept: ['image/jpeg', 'image/png'],
 		// 2mb
-		maxSize: 2000000,
+		maxSize: 2_000_000,
 		multiple: false,
 		preventDropOnDocument: false
 	})
@@ -113,23 +114,33 @@ export const SignUp = () => {
 		})
 	}
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		setLoading(true)
 
-		const response = await api.post<Shop>('/shops', signup)
+		const signupDataForm = new FormData()
 
-		if (response.data) {
-			const token = Buffer.from(`${signup.email}:${signup.password}`).toString('base64')
-			dispatch('shop/set', { shop: response.data, loadingShop: false, token })
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		signupDataForm.append('image', file, file?.name)
+		Object.entries(signup).map(([key, value]) => signupDataForm.append(key, String(value)))
 
-			router.push('/home')
-			setLoading(false)
-		} else {
-			setLoading(false)
-			setAlertError({ ...alertError, open: true })
-		}
+		axios
+			.post(`${process.env.API_URL || 'http://localhost:8080'}/shops`, signupDataForm, {
+				headers: { 'Content-Type': 'multipart/form-data' }
+			})
+			.then(response => {
+				const token = response.data.token
+				dispatch('shop/set', { shop: response.data.shop, loadingShop: false, token })
+
+				setLoading(false)
+				router.push('/home')
+			})
+			.catch(() => {
+				setLoading(false)
+				setAlertError({ ...alertError, open: true })
+			})
 	}
 
 	return (
@@ -170,28 +181,32 @@ export const SignUp = () => {
 						</PhotoContainer>
 
 						<TextField
-							placeholder="Seu E-mail"
+							placeholder="E-mail do Estabelecimento"
 							value={signup?.email}
 							onChange={handleChange('email')}
 							fullWidth
+							name="email"
 							type="email"
 						/>
 						<TextField
-							placeholder="Seu Nome"
+							placeholder="Nome do Estabelecimento"
 							value={signup?.name}
+							name="name"
 							onChange={handleChange('name')}
 							fullWidth
 						/>
 						<TextField
 							type="password"
 							placeholder="Sua Senha"
+							name="password"
 							value={signup?.password}
 							onChange={handleChange('password')}
 							fullWidth
 						/>
 						<TextField
 							type="tel"
-							placeholder="Seu Telefone"
+							placeholder="Telefone do Estabelecimento"
+							name="phone"
 							value={signup?.phone}
 							onChange={handleChange('phone')}
 							fullWidth
@@ -200,6 +215,7 @@ export const SignUp = () => {
 							<Grid item xs={9}>
 								<TextField
 									placeholder="Sua Cidade"
+									name="city"
 									value={signup?.city}
 									onChange={handleChange('city')}
 									fullWidth
@@ -208,6 +224,7 @@ export const SignUp = () => {
 							<Grid item xs={2}>
 								<TextField
 									placeholder="UF"
+									name="state"
 									value={signup?.state}
 									onChange={handleChange('state')}
 									fullWidth

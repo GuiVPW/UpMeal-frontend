@@ -7,14 +7,14 @@ import { Header } from '../Header'
 import { Content, LayoutContainer } from './Layout.styled'
 
 export const Layout: FC = ({ children }) => {
-	const { dispatch, shop } = useStoreon('shop')
+	const { dispatch, token, loadingShop } = useStoreon('token', 'loadingShop')
 	const router = useRouter()
 
 	useEffect(() => {
-		if (!shop) {
+		if (!token && !loadingShop) {
 			router.push('/')
 		}
-	}, [])
+	}, [loadingShop, token])
 
 	return (
 		<LayoutContainer>
@@ -22,6 +22,7 @@ export const Layout: FC = ({ children }) => {
 				handleLogout={() => {
 					dispatch('shop/signOut')
 				}}
+				authenticated={typeof token === 'string' && !loadingShop}
 			/>
 			<Content maxWidth="md">{children}</Content>
 		</LayoutContainer>

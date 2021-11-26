@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { DatePicker, LocalizationProvider } from '@mui/lab'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { DatePicker } from '@mui/lab'
 import {
 	Autocomplete,
 	FormControl,
@@ -24,6 +23,7 @@ export interface FoodModalProps {
 	loading?: boolean
 	data?: Food
 	handleClose: () => void
+	// eslint-disable-next-line no-unused-vars
 	handleOk: (data: MakeKeyOptional<Food, 'id' | 'shopId'>) => void
 }
 
@@ -36,10 +36,12 @@ export const FoodModal = ({
 	handleClose,
 	handleOk
 }: FoodModalProps) => {
-	const [form, setForm] = useState<ModalForm>(data)
+	const [form, setForm] = useState<ModalForm>(data || { isAvailable: true })
 
 	useEffect(() => {
-		setForm(data)
+		if (data) {
+			setForm(data)
+		}
 	}, [data])
 
 	function handleChangeQuantity(quantity: number) {
@@ -80,7 +82,7 @@ export const FoodModal = ({
 							options={foodOptions}
 							freeSolo
 							autoHighlight
-							value={data?.name}
+							value={form?.name}
 							fullWidth
 							onChange={(_, newValue) => handleChangeName(newValue ?? '')}
 							renderInput={params => (
@@ -89,15 +91,16 @@ export const FoodModal = ({
 						/>
 					</Grid>
 					<Grid item xs={12} md>
-						<FormControl required component="fieldset">
+						<FormControl disabled={!data} required component="fieldset">
 							<FormLabel component="legend">Disponibilidade</FormLabel>
 							<RadioGroup
 								row
-								value={data?.isAvailable}
+								value={form?.isAvailable}
 								onChange={e => handleChangeAvailability(e.target.value)}
+								defaultChecked
 							>
-								<FormControlLabel value={false} control={<Radio />} label="Sim" />
-								<FormControlLabel value={true} control={<Radio />} label="Não" />
+								<FormControlLabel value={true} control={<Radio />} label="Sim" />
+								<FormControlLabel value={false} control={<Radio />} label="Não" />
 							</RadioGroup>
 						</FormControl>
 					</Grid>
@@ -110,7 +113,7 @@ export const FoodModal = ({
 							required
 							fullWidth
 							onChange={e => handleChangeQuantity(parseFloat(e.target.value))}
-							value={data?.quantity}
+							value={form?.quantity}
 							type="number"
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
@@ -132,19 +135,15 @@ export const FoodModal = ({
 						/>
 					</Grid>
 					<Grid item xs={12} md>
-						<LocalizationProvider dateAdapter={AdapterDateFns}>
-							<DatePicker
-								label="Data de validade"
-								value={data?.validationDate}
-								minDate={new Date()}
-								onChange={newValue => {
-									// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-									// @ts-ignore
-									handleChangeValidate(newValue ?? '')
-								}}
-								renderInput={params => <TextField required {...params} />}
-							/>
-						</LocalizationProvider>
+						<DatePicker
+							label="Data de validade"
+							value={form?.validationDate}
+							minDate={new Date()}
+							onChange={newValue => {
+								handleChangeValidate(newValue ?? new Date())
+							}}
+							renderInput={params => <TextField required {...params} />}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>

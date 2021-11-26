@@ -14,7 +14,6 @@ import Link from '../components/Link'
 import Snackbar, { AlertState } from '../components/Snackbar'
 import { useStoreon } from '../hooks/useStoreon'
 import { api } from '../services/api'
-import { Shop } from '../services/entities'
 import { FormSection, StyledForm } from '../styles/Home'
 
 interface LoginForm {
@@ -47,12 +46,12 @@ const Home: NextPage = () => {
 		setLoading(true)
 
 		api
-			.post<Shop>('/shops/authenticate', login)
-			.then(({ data }) => {
+			.post('shops/authenticate', login)
+			.then(response => {
 				setLoading(false)
-				const token = Buffer.from(`${login.email}:${login.password}`).toString('base64')
+				const token = response.data.token
 
-				dispatch('shop/set', { shop: data, loadingShop: false, token })
+				dispatch('shop/set', { shop: response.data.shop, loadingShop: false, token })
 
 				router.push('/home')
 			})

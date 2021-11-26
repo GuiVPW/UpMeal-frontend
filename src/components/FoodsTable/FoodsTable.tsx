@@ -12,7 +12,9 @@ import { Food } from '../../services/entities'
 export interface FoodTableProps {
 	foods: Food[]
 	loading: boolean
+	// eslint-disable-next-line no-unused-vars
 	onDeleteRow: (id: number) => void
+	// eslint-disable-next-line no-unused-vars
 	onOpenUpdate: (id: number) => void
 }
 
@@ -44,11 +46,7 @@ export const FoodsTable = ({
 			headerAlign: 'center',
 			align: 'center',
 			valueOptions: foodsData,
-			sortable: false,
-			preProcessEditCellProps: params => {
-				const hasError = !params.props.value
-				return { ...params.props, error: hasError }
-			}
+			sortable: false
 		},
 		{
 			field: 'quantity',
@@ -69,12 +67,13 @@ export const FoodsTable = ({
 			headerAlign: 'center',
 			align: 'center',
 			sortable: false,
-			preProcessEditCellProps: params => {
-				const value = params.props.value
-				return {
-					...params.props,
-					error: value ? (value as Date) <= new Date() : true
-				}
+			valueFormatter: params => {
+				const value = params.value
+
+				return new Date(value as string).toLocaleDateString('pt-BR', {
+					month: 'short',
+					day: 'numeric'
+				})
 			}
 		},
 		{

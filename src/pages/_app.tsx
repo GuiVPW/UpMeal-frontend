@@ -4,8 +4,11 @@ import Head from 'next/head'
 import { CacheProvider, EmotionCache, Global } from '@emotion/react'
 import { ThemeProvider as StyledProvider } from '@emotion/react'
 
+import { LocalizationProvider } from '@mui/lab'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/system'
+import ptBrLocale from 'date-fns/locale/pt-BR'
 import { StoreContext } from 'storeon/react'
 
 import Layout from '../components/Layout'
@@ -37,7 +40,9 @@ export const App = (props: MyAppProps) => {
 						<CssBaseline />
 						<Global styles={GlobalStyle} />
 						<Layout>
-							<Component {...pageProps} />
+							<LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBrLocale}>
+								<Component {...pageProps} />
+							</LocalizationProvider>
 						</Layout>
 					</StyledProvider>
 				</ThemeProvider>

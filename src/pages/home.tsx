@@ -1,12 +1,12 @@
 /* eslint-disable indent */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Image from 'next/image'
 
 import { Add as PlusIcon } from '@mui/icons-material'
-import { Button, Divider, Stack, Typography } from '@mui/material'
+import { Button, Divider, Stack, Typography, CircularProgress } from '@mui/material'
 import { format } from 'date-fns'
 
 import FoodModal from '../components/FoodModal'
@@ -16,37 +16,56 @@ import Snackbar, { AlertState } from '../components/Snackbar'
 import { useStoreon } from '../hooks/useStoreon'
 import withAuth from '../hooks/withAuthHOC'
 import { api } from '../services/api'
-import { Food, Shop } from '../services/entities'
+import { Food } from '../services/entities'
 import { StyledContainer } from '../styles/Home'
 import { ImageContainer, MapContainer, MapFooter, Surface } from '../styles/Logged'
 import { MakeKeyOptional } from '../types/string'
 
 const StaticMap = dynamic(() => import('../components/StaticMap'), { ssr: false })
 export const Logged = () => {
-	const { shop } = useStoreon('shop') as { shop: Shop }
+	const { shop, loadingShop } = useStoreon('shop', 'loadingShop')
 	const [alertError, setAlertError] = useState<AlertState>({ open: false, message: '' })
 	const [alert, setAlert] = useState<AlertState>({ open: false, message: '' })
 	const [loading, setLoading] = useState(false)
 	const [updateVisible, setUpdateVisible] = useState(false)
 	const [newVisible, setNewVisible] = useState(false)
 	const [updatedFood, setUpdatedFood] = useState<Food>()
-	const [foods, setFoods] = useState<Food[]>(shop.foods)
+	const [foods, setFoods] = useState<Food[]>([])
+
+	useEffect(() => {
+		if (!loadingShop && shop?.foods) {
+			setFoods(shop.foods)
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loadingShop, shop])
+
+	if (!shop) {
+		return (
+			<StyledContainer maxWidth="md">
+				<Surface elevation={6}>
+					<Stack alignItems="center" justifyContent="center">
+						<CircularProgress />
+					</Stack>
+				</Surface>
+			</StyledContainer>
+		)
+	}
 
 	const removeFood = async (foodId: number) => {
 		const filteredFoods = foods.filter(({ id }) => id !== foodId)
 
 		setLoading(true)
 
-		const { data: deletedFood } = await api.delete(`/shops/${shop.id}/foods/${foodId}`)
-
-		if (!deletedFood) {
-			setAlertError({ open: true, message: 'Tenha certeza que a API está conectada.' })
-		} else {
-			setFoods(filteredFoods)
-			setAlert({ open: true, message: 'Alimento removido.' })
-		}
-
-		setLoading(false)
+		api
+			.delete(`/shops/${shop.id}/foods/${foodId}`)
+			.then(() => {
+				setFoods(filteredFoods)
+				setAlert({ open: true, message: 'Alimento removido.' })
+			})
+			.catch(() => {
+				setAlertError({ open: true, message: 'Tenha certeza que a API está conectada.' })
+			})
+			.finally(() => setLoading(false))
 	}
 
 	const addFood = async (food: MakeKeyOptional<Food, 'shopId' | 'id'>) => {
@@ -58,7 +77,10 @@ export const Logged = () => {
 			validationDate: format(validationDate as Date, 'yyyy-MM-dd')
 		})
 
-		setFoods(prev => [...prev, { ...data, validationDate: new Date(data.validationDate) }])
+		setFoods(prev => [
+			...prev,
+			{ ...data.food, validationDate: new Date(data.food.validationDate) }
+		])
 		setUpdateVisible(false)
 
 		return setAlert({ open: true, message: 'Alimento criado' })
@@ -67,10 +89,16 @@ export const Logged = () => {
 	const updateFood = async (food: MakeKeyOptional<Food, 'shopId' | 'id'>) => {
 		const { validationDate, ...fields } = food
 
+		console.log(validationDate)
+
 		const response = await api.put(`/shops/${shop.id}/foods/${food.id}`, {
 			...fields,
-			validationDate: format(validationDate as Date, 'yyyy-MM-dd')
-		} as Food)
+			isAvailable: !!fields.isAvailable,
+			validationDate:
+				typeof validationDate === 'string'
+					? validationDate
+					: format(validationDate, 'yyyy-MM-dd')
+		})
 
 		if (!response.data) {
 			return setAlertError({
@@ -79,9 +107,9 @@ export const Logged = () => {
 			})
 		}
 
-		const newData = foods
+		const newData = Array.from(foods)
 		const updatedIndex = newData.findIndex(({ id }) => id === food.id)
-		newData[updatedIndex] = response.data
+		newData[updatedIndex] = response.data.food
 
 		setFoods(newData)
 		return setAlert({ open: true, message: 'Alimento atualizado' })
@@ -101,7 +129,7 @@ export const Logged = () => {
 	return (
 		<>
 			<Head>
-				<title>Home</title>
+				<title>Dados</title>
 			</Head>
 
 			<StyledContainer maxWidth="md">

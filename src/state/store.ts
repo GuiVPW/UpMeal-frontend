@@ -24,7 +24,7 @@ declare module 'storeon/react' {
 export const store = createStoreon<AppState, AppEvents>(
 	[
 		shopModule,
-		persistState<AppState>(['token', 'shop']),
+		persistState<AppState>(['token']),
 		process.env.NODE_ENV !== 'production' && storeonDevtools
 	].filter(Boolean)
 )

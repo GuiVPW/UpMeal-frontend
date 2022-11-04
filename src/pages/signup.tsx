@@ -121,9 +121,9 @@ export const SignUp = () => {
 
 		const signupDataForm = new FormData()
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		signupDataForm.append('image', file, file?.name)
+		if (file != null) {
+			signupDataForm.append('image', file, file?.name)
+		}
 		Object.entries(signup).map(([key, value]) => signupDataForm.append(key, String(value)))
 
 		axios

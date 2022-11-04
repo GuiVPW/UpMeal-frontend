@@ -29,7 +29,7 @@ function MapEvents({ handleChangePosition }: Pick<MapProps, 'handleChangePositio
 }
 
 export const Map = ({ handleChangePosition, initialPosition, location }: MapProps) => {
-	const mapBoxToken = process.env.mapBoxToken
+	const mapBoxToken = process.env.MAPBOX_TOKEN
 
 	const centerCalc = (): LatLngExpression => {
 		const latitudeCalc = location.latitude - location.latitude <= 0.2

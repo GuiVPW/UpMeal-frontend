@@ -90,8 +90,6 @@ export const Logged = () => {
 	const updateFood = async (food: MakeKeyOptional<Food, 'shopId' | 'id'>) => {
 		const { validationDate, ...fields } = food
 
-		console.log(validationDate)
-
 		const response = await api.put(`/shops/${shop.id}/foods/${food.id}`, {
 			...fields,
 			isAvailable: !!fields.isAvailable,

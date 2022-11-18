@@ -127,10 +127,8 @@ export const SignUp = () => {
 			signupDataForm.append('image', file, file.name)
 		}
 		Object.entries(signup).map(([key, value]) => signupDataForm.append(key, String(value)))
-		console.log(signupDataForm.getAll('email'))
 
 		try {
-			console.log
 			const response = await axios.post(`${baseURL}/shops`, signupDataForm, {
 				headers: { 'Content-Type': 'multipart/form-data' }
 			})

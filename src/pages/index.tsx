@@ -22,7 +22,6 @@ interface LoginForm {
 }
 
 const Home: NextPage = () => {
-	console.log(process.env.mapBoxToken)
 	const { dispatch } = useStoreon()
 	const [alertError, setAlertError] = useState<AlertState>({
 		open: false,

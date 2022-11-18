@@ -1,9 +1,7 @@
-/* eslint-disable indent */
-import css from '@emotion/css'
+import { css } from '@emotion/css'
 import { Paper, DialogContent } from '@mui/material'
 import { styled } from '@mui/system'
 
-// eslint-disable-next-line import/no-cycle
 import { ModalProps } from './Modal'
 
 export const Wrapper = styled(Paper)`
@@ -26,6 +24,8 @@ type ModalContentProps = Pick<ModalProps, 'onlyContent' | 'size' | 'showCloseBut
 
 export const ModalContent = styled(DialogContent)<ModalContentProps>(props => ({
 	padding: '8px 24px',
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	...css`
 		padding-bottom: ${props.showCloseButton && 32};
 

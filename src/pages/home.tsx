@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
@@ -21,6 +20,8 @@ import { StyledContainer } from '../styles/Home'
 import { ImageContainer, MapContainer, MapFooter, Surface } from '../styles/Logged'
 import { MakeKeyOptional } from '../types/string'
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const StaticMap = dynamic(() => import('../components/StaticMap'), { ssr: false })
 export const Logged = () => {
 	const { shop, loadingShop } = useStoreon('shop', 'loadingShop')
@@ -138,7 +139,7 @@ export const Logged = () => {
 						{shop.imageUrl && (
 							<Stack alignItems="center">
 								<ImageContainer>
-									<Image src={shop.imageUrl as any} alt="shop-image" />
+									<Image src={shop.imageUrl} alt="shop-image" />
 								</ImageContainer>
 							</Stack>
 						)}
@@ -168,10 +169,11 @@ export const Logged = () => {
 
 						<Typography variant="display2">Localização</Typography>
 						<MapContainer>
+							{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+							{/* @ts-ignore */}
 							<StaticMap location={shop} />
 							<MapFooter>
 								<Link
-									passHref
 									target="_blank"
 									rel="noopener noreferrer"
 									href={`https://www.google.com/maps/dir/?api=1&destination=${shop.latitude},${shop.longitude}`}

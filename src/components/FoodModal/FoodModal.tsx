@@ -36,11 +36,15 @@ export const FoodModal = ({
 	handleClose,
 	handleOk
 }: FoodModalProps) => {
-	const [form, setForm] = useState<ModalForm>(data || { isAvailable: true })
+	const [form, setForm] = useState<ModalForm>(data)
 
 	useEffect(() => {
-		if (data) {
-			setForm(data)
+		if (data != null) {
+			setForm({ ...data, isAvailable: Boolean(data.isAvailable) })
+		}
+
+		return () => {
+			setForm({})
 		}
 	}, [data])
 
@@ -53,7 +57,7 @@ export const FoodModal = ({
 	}
 
 	function handleChangeAvailability(isAvailable: string) {
-		setForm({ ...form, isAvailable: JSON.parse(isAvailable) as boolean })
+		setForm({ ...form, isAvailable: isAvailable === 'true' })
 	}
 
 	function handleChangeValidate(date: Date) {
@@ -82,7 +86,7 @@ export const FoodModal = ({
 							options={foodOptions}
 							freeSolo
 							autoHighlight
-							value={form?.name}
+							value={form?.name ?? data?.name}
 							fullWidth
 							onChange={(_, newValue) => handleChangeName(newValue ?? '')}
 							renderInput={params => (
@@ -90,30 +94,31 @@ export const FoodModal = ({
 							)}
 						/>
 					</Grid>
-					<Grid item xs={12} md>
-						<FormControl disabled={!data} required component="fieldset">
-							<FormLabel component="legend">Disponibilidade</FormLabel>
-							<RadioGroup
-								row
-								value={form?.isAvailable}
-								onChange={e => handleChangeAvailability(e.target.value)}
-								defaultChecked
-							>
-								<FormControlLabel value={true} control={<Radio />} label="Sim" />
-								<FormControlLabel value={false} control={<Radio />} label="Não" />
-							</RadioGroup>
-						</FormControl>
-					</Grid>
+					{data && (
+						<Grid item xs={12} md>
+							<FormControl disabled={!data} required component="fieldset">
+								<FormLabel component="legend">Disponibilidade</FormLabel>
+								<RadioGroup
+									row
+									value={Boolean(form?.isAvailable) ?? Boolean(data?.isAvailable)}
+									onChange={e => handleChangeAvailability(e.target.value)}
+								>
+									<FormControlLabel value={true} control={<Radio />} label="Sim" />
+									<FormControlLabel value={false} control={<Radio />} label="Não" />
+								</RadioGroup>
+							</FormControl>
+						</Grid>
+					)}
 				</Grid>
 				<Grid container justifyContent="center" spacing={2} sx={{ marginTop: '12px' }}>
 					<Grid item xs={12} md>
 						<TextField
-							label="Quantidade*"
+							label="Quantidade"
 							variant="outlined"
 							required
 							fullWidth
 							onChange={e => handleChangeQuantity(parseFloat(e.target.value))}
-							value={form?.quantity}
+							value={form?.quantity ?? data?.quantity}
 							type="number"
 							// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 							// @ts-ignore
@@ -137,7 +142,7 @@ export const FoodModal = ({
 					<Grid item xs={12} md>
 						<DatePicker
 							label="Data de validade"
-							value={form?.validationDate}
+							value={form?.validationDate ?? data?.validationDate}
 							minDate={new Date()}
 							onChange={newValue => {
 								handleChangeValidate(newValue ?? new Date())

@@ -22,6 +22,7 @@ interface LoginForm {
 }
 
 const Home: NextPage = () => {
+	console.log(process.env.mapBoxToken)
 	const { dispatch } = useStoreon()
 	const [alertError, setAlertError] = useState<AlertState>({
 		open: false,
@@ -41,24 +42,23 @@ const Home: NextPage = () => {
 		router.prefetch('/home')
 	}, [])
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		setLoading(true)
 
-		api
-			.post('shops/authenticate', login)
-			.then(response => {
-				setLoading(false)
-				const token = response.data.token
+		try {
+			const { data } = await api.post('shops/authenticate', login)
 
-				dispatch('shop/set', { shop: response.data.shop, loadingShop: false, token })
+			setLoading(false)
+			const token = data.token
 
-				router.push('/home')
-			})
-			.catch(() => {
-				setLoading(false)
-				setAlertError({ ...alertError, open: true })
-			})
+			dispatch('shop/set', { shop: data.shop, loadingShop: false, token })
+
+			router.push('/home')
+		} catch {
+			setLoading(false)
+			setAlertError({ ...alertError, open: true })
+		}
 	}
 
 	return (
@@ -100,7 +100,7 @@ const Home: NextPage = () => {
 					<Link href="/signup">Não tenho cadastro</Link>
 				</StyledForm>
 			</FormSection>
-			{mdUp && <Image src={homeImage} alt="people-hugging" />}
+			{mdUp && <Image src={homeImage} width={400} alt="people-hugging" />}
 			<Snackbar
 				type="error"
 				open={alertError.open}

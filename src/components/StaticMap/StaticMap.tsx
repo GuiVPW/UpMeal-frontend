@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 
 import mapIcon from '../../lib/markerIcon'
@@ -8,7 +10,7 @@ export interface MapProps {
 }
 
 export const StaticMap = ({ location }: MapProps) => {
-	const mapBoxToken = process.env.mapBoxToken
+	const [mapBoxToken] = useState(process.env.mapBoxToken)
 
 	return (
 		<MapContainer

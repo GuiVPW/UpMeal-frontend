@@ -2,8 +2,10 @@ import { Axios } from 'axios'
 
 import { Shop } from './entities'
 
+export const baseURL = process.env.API_URL || 'http://localhost:8080'
+
 export const api = new Axios({
-	baseURL: process.env.API_URL || 'http://localhost:8080',
+	baseURL,
 	timeout: 5000,
 	headers: {
 		'Content-type': 'application/json'

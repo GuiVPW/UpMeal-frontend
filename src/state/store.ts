@@ -12,11 +12,13 @@ export interface AppEvents extends ShopEvents {}
 
 declare module 'storeon' {
 	export type IStoreonModule<State = AppState, Events = AppEvents> = (
+		// eslint-disable-next-line no-unused-vars
 		store: StoreonStore<State, Events>
 	) => void
 }
 declare module 'storeon/react' {
 	export function useStoreon(
+		// eslint-disable-next-line no-unused-vars
 		...keys: (keyof AppState)[]
 	): useStoreon.StoreData<AppState, AppEvents>
 }

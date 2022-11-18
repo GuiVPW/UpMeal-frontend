@@ -1,5 +1,7 @@
 /* eslint-disable indent */
 
+import { useState } from 'react'
+
 import { LatLngExpression } from 'leaflet'
 import { MapContainer, TileLayer, useMapEvent } from 'react-leaflet'
 
@@ -29,7 +31,7 @@ function MapEvents({ handleChangePosition }: Pick<MapProps, 'handleChangePositio
 }
 
 export const Map = ({ handleChangePosition, initialPosition, location }: MapProps) => {
-	const mapBoxToken = process.env.mapBoxToken
+	const [mapBoxToken] = useState(process.env.mapBoxToken)
 
 	const centerCalc = (): LatLngExpression => {
 		const latitudeCalc = location.latitude - location.latitude <= 0.2

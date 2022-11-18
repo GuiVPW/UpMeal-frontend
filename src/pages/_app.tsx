@@ -22,12 +22,11 @@ import 'leaflet/dist/leaflet.css'
 
 const clientSideEmotionCache = createEmotionCache()
 
-interface MyAppProps extends AppProps {
-	emotionCache?: EmotionCache
-}
-
-export const App = (props: MyAppProps) => {
-	const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+export const App = ({
+	Component,
+	pageProps,
+	emotionCache = clientSideEmotionCache
+}: AppProps & { emotionCache?: EmotionCache }) => {
 	return (
 		<StoreContext.Provider value={store}>
 			<CacheProvider value={emotionCache}>

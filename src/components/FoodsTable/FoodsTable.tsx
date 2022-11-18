@@ -125,6 +125,7 @@ export const FoodsTable = ({
 				page={page}
 				pageSize={perPage}
 				onPageChange={currPage => setPage(currPage)}
+				localeText={{ noRowsLabel: 'Nenhum alimento encontrado' }}
 			/>
 		</div>
 	)

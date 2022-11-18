@@ -125,7 +125,11 @@ export const FoodsTable = ({
 				page={page}
 				pageSize={perPage}
 				onPageChange={currPage => setPage(currPage)}
-				localeText={{ noRowsLabel: 'Nenhum alimento encontrado' }}
+				localeText={{
+					noRowsLabel: 'Nenhum alimento encontrado',
+					footerTotalVisibleRows: (visibleCount, totalCount) =>
+						`${visibleCount} de ${totalCount}`
+				}}
 			/>
 		</div>
 	)
